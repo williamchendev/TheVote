@@ -1,0 +1,116 @@
+{
+    "event_data": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        1,
+        0,
+        3,
+        2,
+        4,
+        0,
+        5,
+        3,
+        6,
+        0,
+        7,
+        4,
+        8,
+        0,
+        9,
+        5,
+        10,
+        0,
+        11,
+        6,
+        12,
+        0,
+        13,
+        7,
+        14,
+        1,
+        15,
+        8,
+        0,
+        16,
+        9,
+        17,
+        7
+    ],
+    "event_float": [],
+    "event_string": [
+        "This is the NPC talking",
+        "debug_hash",
+        "debug_hash",
+        "Hi! I am talking with a text bubble!",
+        "playerfixed",
+        "This is very fun!",
+        "playerfixed",
+        "This bubble is above my head!",
+        "playerfixed",
+        "This one isn't!",
+        "player",
+        "Hope these bubbles look fun!",
+        "playerfixed",
+        "Now I'm going to move!",
+        "playerfixed",
+        "player",
+        "Yay I moved!",
+        "playerfixed"
+    ],
+    "event_vector": [
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        {
+            "x": 4.929999828338623,
+            "y": -2.0,
+            "z": 0.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        {
+            "x": 4.5,
+            "y": 2.0,
+            "z": 0.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        {
+            "x": -5.0,
+            "y": -2.5,
+            "z": 0.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    ]
+}
