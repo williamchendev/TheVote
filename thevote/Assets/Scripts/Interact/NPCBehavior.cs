@@ -5,26 +5,38 @@ using UnityEngine;
 public class NPCBehavior : InteractableBehavior {
 
     //NPC
-    [SerializeField] private string hash = "new_npc_hash";
-    [SerializeField] private Color color = Color.red;
-    [SerializeField] private string event_name = "";
+    [SerializeField] protected string hash = "new_npc_hash";
+    [SerializeField] protected Color color = Color.red;
+    [SerializeField] protected string event_name = "";
+
+    protected bool event_cycle;
+    protected string[] event_names;
+    protected int questitemA;
+    protected string questevent_nameA;
+    protected int questitemB;
+    protected string questevent_nameB;
+    protected int questitemC;
+    protected string questevent_nameC;
 
     //Components
     private EventManager em;
     private PathScript path;
 
     //Settings
-    private float spd;
-    private bool canmove;
-    private bool moving;
-    private bool cutscene;
-    private int path_num;
-    private Vector2[] path_array;
+    protected float spd;
+    protected bool canmove;
+    protected bool moving;
+    protected bool cutscene;
+    protected int path_num;
+    protected Vector2[] path_array;
 
-	// Use this for initialization
-	private new void Awake () {
+    //Events
+    private int event_num;
+
+	//Init
+	protected override void init() {
         //Interactable
-        base.Awake();
+        base.init();
 
         //Settings
         em = GetComponent<EventManager>();
@@ -40,17 +52,56 @@ public class NPCBehavior : InteractableBehavior {
         moving = false;
 		spd = 1.8f;
         path_num = 0;
+
+        //Events
+        event_num = 0;
+
+        event_cycle = false;
+        event_names = new string[0];
+        questitemA = -1;
+        questevent_nameA = "";
+        questitemB = -1;
+        questevent_nameB = "";
+        questitemC = -1;
+        questevent_nameC = "";
 	}
 	
 	//Update Event
-	private new void Update () {
+	protected override void step() {
         //Interactable
-		base.Update();
+		base.step();
 
         //NPC Behavior Event
         if (action){
             if (!em.isActive){
-                em.playEvent(event_name);
+                PlayerBehavior player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>();
+                if (player.useItem(-1)){
+                    if (event_cycle){
+                        if (event_num >= event_names.Length) {
+                            event_num = 0;
+                        }
+                        em.playEvent(event_names[event_num]);
+                        event_num++;
+                    }
+                    else {
+                        em.playEvent(event_name);
+                    }
+                }
+                else {
+                    if (player.useItem(questitemA)){
+                        em.playEvent(questevent_nameA);
+                    }
+                    else if (player.useItem(questitemB)){
+                        em.playEvent(questevent_nameB);
+                    }
+                    else if (player.useItem(questitemC)){
+                        em.playEvent(questevent_nameC);
+                    }
+                    else {
+                        em.playEvent("System/cantuseitemonperson");
+                    }
+                }
+                
                 action = false;
             }
         }

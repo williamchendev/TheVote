@@ -15,6 +15,15 @@ public class InteractableBehavior : InteractableInterface {
 
 	//Init
 	protected void Awake () {
+        init();
+	}
+	
+	//Update Event
+	protected void Update () {
+        step();
+	}
+
+    protected override void init() {
         //Components
         sr = GetComponent<SpriteRenderer>();
         outline = gameObject.AddComponent<SpriteOutline>();
@@ -32,11 +41,10 @@ public class InteractableBehavior : InteractableInterface {
         //Settings
         selected = false;
         action = false;
-	}
-	
-	//Update Event
-	protected void Update () {
-		Vector3 v3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+    protected override void step(){
+        Vector3 v3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         PlayerBehavior player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>();
 
         outline.OutlineColor = new Color(1, 1, 1, 0);
@@ -57,7 +65,7 @@ public class InteractableBehavior : InteractableInterface {
                 }
             }
         }
-	}
+    }
 
     //Get Position
     public override Vector2 getPosition() {

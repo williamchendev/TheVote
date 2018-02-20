@@ -12,9 +12,9 @@ public class BanterBehavior : InteractableBehavior {
     private EventManager em;
 
 	// Use this for initialization
-	private new void Awake () {
+	protected override void init() {
         //Interactable
-        base.Awake();
+        base.init();
 
         //Settings
         em = GetComponent<EventManager>();
@@ -22,9 +22,9 @@ public class BanterBehavior : InteractableBehavior {
 	}
 	
 	//Update Event
-	private new void Update () {
+	protected override void step() {
         //Interactable
-		base.Update();
+		base.step();
 
         //Banter Behavior Event
         if (action){

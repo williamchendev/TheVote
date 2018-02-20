@@ -108,9 +108,9 @@ public class SaveFile {
     //File functions
     public void saveFile() {
         string json_save = JsonUtility.ToJson(this, true);
-        string path = Application.dataPath + "/Saves/Save.json";
+        string path = Application.streamingAssetsPath + "/Saves/Save.json";
         if (!File.Exists(path)){
-            Directory.CreateDirectory(Application.dataPath + "/Saves");
+            Directory.CreateDirectory(Application.streamingAssetsPath + "/Saves");
         }
         File.WriteAllText (path, json_save);
         #if UNITY_EDITOR
@@ -119,7 +119,7 @@ public class SaveFile {
     }
 
     public void loadFile() {
-        string path = Application.dataPath + "/Saves/Save.json";
+        string path = Application.streamingAssetsPath + "/Saves/Save.json";
         if (File.Exists(path)){
             string json_save = File.ReadAllText(path);
             SaveFile temp_save = JsonUtility.FromJson<SaveFile>(json_save);

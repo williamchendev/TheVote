@@ -15,32 +15,11 @@ public class EventManager : MonoBehaviour {
     private string event_hash;
 
     //Init
-    private void Awake() {
+    void Awake() {
         //Settings
         active = false;
         event_type = -1;
         event_num = 0;
-
-        //Debug
-        /*
-        EventFile event_file = new EventFile();
-        event_file.addText("I don't have any more space for that", Vector2.zero, "playerfixed");
-        event_file.addText("I wish women's clothing had more pockets...", Vector2.zero, "playerfixed");
-        event_file.addEnd();
-        saveFile("noinventoryspace", event_file);
-        */
-
-        /*
-        List<ArrayList> text = loadFile("test_file").getEvent();
-        for (int i = 0; i < text.Count; i++){
-            ArrayList temp_text = text[i];
-            for (int k = 0; k < temp_text.Count; k++){
-                Debug.Log(temp_text[k]);
-            }
-        }
-        */
-
-        //playEvent("test_file");
     }
 
     //Event Methods
@@ -54,6 +33,7 @@ public class EventManager : MonoBehaviour {
         //Player Settings
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<PlayerBehavior>().can_move = false;
+        player.GetComponent<PlayerBehavior>().cleanItem();
 
         //NPC Settings
         GameObject[] npc = GameObject.FindGameObjectsWithTag("NPC");

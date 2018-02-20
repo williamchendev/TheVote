@@ -18,6 +18,8 @@ public class PlayerBehavior : MonoBehaviour {
     private InteractableBehavior interact;
 
     //Inventory
+    private int player_item;
+    private GameObject playeritem_obj;
     private bool inventory_active;
     private GameObject[] inventory;
 
@@ -35,6 +37,7 @@ public class PlayerBehavior : MonoBehaviour {
         path_num = 0;
 
         //Inventory
+        player_item = -1;
         inventory_active = false;
         inventory = new GameObject[6];
         GameObject inventory_obj = (Resources.Load("Prefabs/pInvBlip")) as GameObject;
@@ -44,6 +47,8 @@ public class PlayerBehavior : MonoBehaviour {
             inventory[i].transform.parent = transform;
             inventory[i].GetComponent<InventoryScript>().setItem(-1);
         }
+        playeritem_obj = Instantiate((Resources.Load("Prefabs/pInvPlayer")) as GameObject, transform.position, transform.rotation);
+        playeritem_obj.transform.parent = this.transform;
 	}
 	
 	//Update Event
@@ -143,17 +148,41 @@ public class PlayerBehavior : MonoBehaviour {
                 moving = true;
             }
 
+            //Inventory Behavior
             if (inventory_active){
                 if (Input.GetMouseButtonDown(0)){
                     Vector3 v3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    canmove = true;
-                    inventory_active = false;
-                    for (int q = 0; q < inventory.Length; q++){
-                        inventory[q].GetComponent<InventoryScript>().setActive = false;
+
+                    int inventory_num = 0;
+                    float inventory_dis = Vector2.Distance(new Vector2(inventory[0].transform.position.x, inventory[0].transform.position.y), new Vector2(v3.x, v3.y));
+                    bool clicked_inventory = false;
+                    for (int l = 0; l < inventory.Length; l++){
+                        float new_dis = Vector2.Distance(new Vector2(inventory[l].transform.position.x, inventory[l].transform.position.y), new Vector2(v3.x, v3.y));
+                        if (new_dis < 0.35f){
+                            clicked_inventory = true;
+                            if (new_dis < inventory_dis){
+                                inventory_num = l;
+                                inventory_dis = new_dis;
+                            }
+                        }
                     }
-                    if (Vector2.Distance(new Vector2(v3.x, v3.y), new Vector2(transform.position.x, transform.position.y + 1.7f)) >= 0.5f){
-                        Update();
-                        return;
+
+                    if (clicked_inventory){
+                        int temp_swap = player_item;
+                        player_item = inventory[inventory_num].GetComponent<InventoryScript>().itemnum;
+                        playeritem_obj.GetComponent<PlayerItemScript>().changeItem(player_item);
+                        inventory[inventory_num].GetComponent<InventoryScript>().setItem(temp_swap);
+                    }
+                    else {
+                        canmove = true;
+                        inventory_active = false;
+                        for (int q = 0; q < inventory.Length; q++){
+                            inventory[q].GetComponent<InventoryScript>().setActive = false;
+                        }
+                        if (Vector2.Distance(new Vector2(v3.x, v3.y), new Vector2(transform.position.x, transform.position.y + 1.7f)) >= 0.5f){
+                            Update();
+                            return;
+                        }
                     }
                 }
             }
@@ -185,24 +214,61 @@ public class PlayerBehavior : MonoBehaviour {
 	}
 
     //Inventory Methods
-    public bool addItem(int item) {
-        bool found_space = false;
+    public bool useItem(int item) {
+        if (player_item == item){
+            player_item = -1;
+            playeritem_obj.GetComponent<PlayerItemScript>().changeItem(player_item);
+            return true;
+        }
+        return false;
+    }
+
+    public void cleanItem() {
         for (int i = 0; i < inventory.Length; i++){
             if (inventory[i].GetComponent<InventoryScript>().itemnum == -1){
-                inventory[i].GetComponent<InventoryScript>().setItem(item);
-                found_space = true;
+                inventory[i].GetComponent<InventoryScript>().setItem(player_item);
                 break;
             }
         }
-        if (found_space){
+        player_item = -1;
+        playeritem_obj.GetComponent<PlayerItemScript>().changeItem(player_item);
+    }
+
+    public bool addItem(int item) {
+        int empty_space = -1;
+        int spaces = 0;
+        bool space_found = false;
+        if (player_item != -1){
+            spaces++;
+        }
+        for (int i = 0; i < inventory.Length; i++){
+            if (inventory[i].GetComponent<InventoryScript>().itemnum == -1){
+                if (!space_found){
+                    empty_space = i;
+                    space_found = true;
+                }
+            }
+            else {
+                spaces++;
+            }
+        }
+        if (spaces >= inventory.Length) {
+            return false;
+        }
+
+        if (empty_space != -1){
+            inventory[empty_space].GetComponent<InventoryScript>().setItem(item);
+
             inventory_active = true;
             for (int q = 0; q < inventory.Length; q++){
                 inventory[q].GetComponent<InventoryScript>().setActive = true;
                 inventory[q].GetComponent<InventoryScript>().setAngle((Mathf.PI + (1.0471975512f * q)) + Random.Range(-0.4f, 0.4f) + 0.52359877559f);
             }
             canmove = false;
+            return true;
         }
-        return found_space;
+
+        return false;
     }
 
     public bool removeItem(int item) {

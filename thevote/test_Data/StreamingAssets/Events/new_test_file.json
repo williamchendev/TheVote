@@ -1,0 +1,20 @@
+{
+    "event_data": [
+        0,
+        0,
+        0,
+        1,
+        7
+    ],
+    "event_string": [
+        "This is a new cutscene",
+        "not_a_regular_hash"
+    ],
+    "event_vector": [
+        {
+            "x": -4.199999809265137,
+            "y": 2.0,
+            "z": 0.0
+        }
+    ]
+}

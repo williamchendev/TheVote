@@ -17,9 +17,9 @@ public class ItemBehavior : InteractableBehavior {
     private bool pick_up_item;
 
 	// Use this for initialization
-	private new void Awake () {
+	protected override void init() {
         //Interactable
-        base.Awake();
+        base.init();
 
         //Settings
         em = GetComponent<EventManager>();
@@ -28,9 +28,9 @@ public class ItemBehavior : InteractableBehavior {
 	}
 	
 	//Update Event
-	private new void Update () {
+	protected override void step() {
         //Interactable
-		base.Update();
+		base.step();
 
         //Item Behavior Event
         if (action){
@@ -46,7 +46,7 @@ public class ItemBehavior : InteractableBehavior {
                 pick_up_item = false;
                 GameObject player_obj = GameObject.FindGameObjectWithTag("Player");
                 if (!player_obj.GetComponent<PlayerBehavior>().addItem(item)){
-                    em.playEvent("noinventoryspace");
+                        em.playEvent("System/noinventoryspace");
                 }
                 else {
                     if (destroy_on_collect){
