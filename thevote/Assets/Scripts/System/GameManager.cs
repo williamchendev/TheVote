@@ -14,6 +14,12 @@ public class GameManager : MonoBehaviour {
 
     //Save System
     private SaveFile save_file;
+    
+    //Player Scene Management
+    private bool init_scene;
+    private int[] player_inventory;
+    private bool player_facing;
+    private int player_door;
 
 	//Init Manager
 	void Awake () {
@@ -36,6 +42,7 @@ public class GameManager : MonoBehaviour {
 
         //Settings
         uicanvas = GetComponentInChildren<Canvas>();
+        init_scene = false;
 	}
 
     //Scene Load Event
@@ -48,18 +55,49 @@ public class GameManager : MonoBehaviour {
     }
  
     private void OnSceneLoaded (Scene scene, LoadSceneMode mode) {
+        if (init_scene){
+            Vector2 player_position = Vector2.zero;
+            GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
+            if (doors.Length > 0){
+                for (int d = 0; d < doors.Length; d++){
+                    if (doors[d].GetComponent<DoorScript>().door == player_door){
+                        player_position = doors[d].GetComponent<InteractableBehavior>().getPosition();
+                        break;
+                    }
+                }
+            }
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null){
+                player = Instantiate((Resources.Load("pPlayer")) as GameObject, new Vector3(player_position.x, player_position.y, 0f), (((Resources.Load("pPlayer")) as GameObject).transform.rotation));
+            }
+            for (int i = 0; i < player_inventory.Length; i++){
+                player.GetComponent<PlayerBehavior>().addItem(player_inventory[i]);
+            }
+            player.transform.position = new Vector3(player_position.x, player_position.y, 0f);
+            player.GetComponent<SpriteRenderer>().flipX = player_facing;
+            player.GetComponent<PlayerBehavior>().hideItem();
+            init_scene = false;
+        }
+
         uicanvas.worldCamera = Camera.main;
     }
 
     //Update Event
     void Update () {
         if (Input.GetKeyDown(KeyCode.R)){
-            changeScene("Debug");
+
         }
 	}
 
     //Scene Management
-    public void changeScene (string name){
+    public void changeScene (string name, int door_num){
+        init_scene = true;
+        PlayerBehavior player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>();
+        player.cleanItem();
+        player_inventory = player.allItem();
+        player_facing = player.gameObject.GetComponent<SpriteRenderer>().flipX;
+        player_door = door_num;
         SceneManager.LoadScene(name, LoadSceneMode.Single);
     }
 

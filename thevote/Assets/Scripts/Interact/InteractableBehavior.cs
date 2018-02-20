@@ -15,6 +15,7 @@ public class InteractableBehavior : InteractableInterface {
 
 	//Init
 	protected void Awake () {
+        gameObject.AddComponent<PixelSnap>();
         init();
 	}
 	

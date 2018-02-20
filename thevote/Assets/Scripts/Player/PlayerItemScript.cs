@@ -38,7 +38,6 @@ public class PlayerItemScript : MonoBehaviour {
             if (number == item){
                 sr.enabled = true;
                 anim.Play(animation_names[i]);
-                string return_string = Regex.Replace(animation_names[i], @"\d", "");
             }
         }
     }

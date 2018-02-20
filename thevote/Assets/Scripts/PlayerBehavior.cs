@@ -101,7 +101,7 @@ public class PlayerBehavior : MonoBehaviour {
                                 higher_importance = true;
                             }
                         }
-                        else if (click_ray[i].collider.gameObject.tag == "Move"){
+                        else if (click_ray[i].collider.gameObject.tag == "Door"){
                             if (importance > 3){
                                 importance = 3;
                                 higher_importance = true;
@@ -234,6 +234,14 @@ public class PlayerBehavior : MonoBehaviour {
         playeritem_obj.GetComponent<PlayerItemScript>().changeItem(player_item);
     }
 
+    public void hideItem() {
+        for (int q = 0; q < inventory.Length; q++){
+            inventory[q].GetComponent<InventoryScript>().setActive = false;
+        }
+        inventory_active = false;
+        canmove = true;
+    }
+
     public bool addItem(int item) {
         int empty_space = -1;
         int spaces = 0;
@@ -283,6 +291,13 @@ public class PlayerBehavior : MonoBehaviour {
         return found_space;
     }
 
+    public int[] allItem() {
+        int[] inv_array = new int[inventory.Length];
+        for (int i = 0; i < inventory.Length; i++){
+            inv_array[i] = inventory[i].GetComponent<InventoryScript>().itemnum;
+        }
+        return inv_array;
+    }
 
     //Player Settings
     public bool can_move {

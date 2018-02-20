@@ -70,6 +70,12 @@ public class EventFile {
                 list.Add(new_event);
                 break;
             }
+            else if (event_data[i] == 8){
+                //Skip Event
+                new_event.Add(event_data[i + 1]);
+                new_event.Add(event_data[i + 2]);
+                i = i + 3;
+            }
             list.Add(new_event);
         }
         return list;
@@ -127,6 +133,12 @@ public class EventFile {
 
     public void addEnd() {
         event_data.Add(7);
+    }
+
+    public void addSkip(int key, int skip) {
+        event_data.Add(8);
+        event_data.Add(key);
+        event_data.Add(skip);
     }
 
 }

@@ -18,9 +18,17 @@ public class DebugEvent : MonoBehaviour {
 
     private void debug() {
         EventFile file = new EventFile();
-        file.addText("I can't use that, that's dumb!", Vector2.zero, "playerfixed");
+        file.addSkip(3, 4);
+        file.addText("1", Vector2.zero, "playerfixed");
+        file.addText("2", Vector2.zero, "playerfixed");
+        file.addKey(3);
+        file.addText("3", Vector2.zero, "playerfixed");
+        file.addText("4", Vector2.zero, "playerfixed");
+        file.addText("5", Vector2.zero, "playerfixed");
+        file.addText("6", Vector2.zero, "playerfixed");
+        file.addText("7", Vector2.zero, "playerfixed");
         file.addEnd();
-        em.saveFile("cantuseitem", file);
+        em.saveFile("debug_skip", file);
     }
 
 }

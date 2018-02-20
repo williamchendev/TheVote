@@ -133,6 +133,22 @@ public class EventManager : MonoBehaviour {
             //End
             endEvent();
         }
+        else if (event_type == 8){
+            //Skip
+            int key = (int) event_array[1];
+            int skip = (int) event_array[2];
+            if (skip == 0){
+                skip = 1;
+            }
+
+            if (GameManager.instance.save.getKey(key)){
+                event_num += skip;
+            }
+            else {
+                event_num++;
+            }
+            eventHandler(event_data[event_num]);
+        }
     }
 
     //Update Event
