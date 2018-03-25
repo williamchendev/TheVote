@@ -68,6 +68,7 @@ public class TextScript : MonoBehaviour {
         transform.parent = GameManager.instance.canvas.gameObject.transform;
         cam = GameManager.instance.canvas.worldCamera;
         position = new Vector3(transform.position.x, transform.position.y, -1f * GameManager.instance.canvas.transform.childCount);
+        Update();
 	}
 	
 	//Update Event

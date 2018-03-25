@@ -22,6 +22,7 @@ public class InteractableBehavior : InteractableInterface {
 	//Update Event
 	protected void Update () {
         step();
+        transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.y + 500));
 	}
 
     protected override void init() {

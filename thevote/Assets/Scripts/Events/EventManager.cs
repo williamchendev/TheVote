@@ -5,14 +5,13 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour {
 
-    [SerializeField] private GameObject text_obj;
-
     //Settings
     private List<ArrayList> event_data;
     private bool active;
     private int event_type;
     private int event_num;
     private string event_hash;
+    private int choice_num;
 
     //Init
     void Awake() {
@@ -33,6 +32,7 @@ public class EventManager : MonoBehaviour {
         //Player Settings
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<PlayerBehavior>().can_move = false;
+        player.GetComponent<PlayerBehavior>().inventory_act = false;
         player.GetComponent<PlayerBehavior>().cleanItem();
 
         //NPC Settings
@@ -72,20 +72,29 @@ public class EventManager : MonoBehaviour {
             string npc_hash = (string) event_array[3];
             Color text_color = Color.white;
 
-            if (npc_hash == "playerfixed"){
+            if (npc_hash == "player"){
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
-                v2 = new Vector2(player.transform.position.x, player.transform.position.y +  3.2f);
+                v2 = new Vector2(player.transform.position.x, player.transform.position.y + 3.2f);
             }
             else {
+                bool free = false;
+                if (npc_hash.Substring(Mathf.Max(0, npc_hash.Length - 4)) == "free"){
+                    free = true;
+                    npc_hash = npc_hash.Substring(0, npc_hash.Length - 4);
+                }
+
                 GameObject[] check = GameObject.FindGameObjectsWithTag("NPC");
                 for (int i = 0; i < check.Length; i++){
                     if (check[i].GetComponent<NPCBehavior>().hashid == npc_hash){
+                        if (!free){
+                            v2 = new Vector2(check[i].transform.position.x, check[i].transform.position.y + 3.2f);
+                        }
                         text_color = check[i].GetComponent<NPCBehavior>().textcolor;
                         break;
                     }
                 }
             }
-            TextScript textbox = Instantiate(text_obj, new Vector3(v2.x, v2.y, 0f), transform.rotation).GetComponent<TextScript>();
+            TextScript textbox = Instantiate((Resources.Load("Prefabs/Text/pText")) as GameObject, new Vector3(v2.x, v2.y, 0f), transform.rotation).GetComponent<TextScript>();
 
             textbox.colorContent = text_color;
             textbox.textContent = text;
@@ -149,6 +158,40 @@ public class EventManager : MonoBehaviour {
             }
             eventHandler(event_data[event_num]);
         }
+        else if (event_type == 9){
+            //Choice Event
+            int choice_num = (int) event_array[1];
+            string text = (string) event_array[2];
+            string npc_hash = (string) event_array[9];
+            Color text_color = Color.white;
+
+            Vector2 v2 = Vector2.zero;
+            GameObject[] check = GameObject.FindGameObjectsWithTag("NPC");
+            for (int i = 0; i < check.Length; i++){
+                if (check[i].GetComponent<NPCBehavior>().hashid == npc_hash){
+                    v2 = new Vector2(check[i].transform.position.x, check[i].transform.position.y + 3.2f);
+                    text_color = check[i].GetComponent<NPCBehavior>().textcolor;
+                    break;
+                }
+            }
+
+            ChoiceScript textbox = Instantiate((Resources.Load("Prefabs/Text/pChoice")) as GameObject, new Vector3(v2.x, v2.y, 0f), transform.rotation).GetComponent<ChoiceScript>();
+            textbox.colorContent = text_color;
+            textbox.textContent = text;
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            v2 = new Vector2(player.transform.position.x, player.transform.position.y + 3f);
+            for (int i = choice_num - 1; i >= 0; i--){
+                SubChoiceScript choiceA = Instantiate((Resources.Load("Prefabs/Text/pSubChoice")) as GameObject, new Vector3(v2.x, v2.y + (i * 0.85f), 0f), transform.rotation).GetComponent<SubChoiceScript>();
+                choiceA.textContent = (string) event_array[3 + i];
+                choiceA.choiceContent = (int) event_array[6 + i];
+                choiceA.setEvent = this.gameObject.GetComponent<EventManager>();
+                choiceA.choicescript = textbox;
+                choiceA.Start();
+            }
+
+            textbox.Start();
+        }
     }
 
     //Update Event
@@ -191,8 +234,21 @@ public class EventManager : MonoBehaviour {
                 else if (event_type == 3){
 
                 }
+                else if (event_type == 9){
+                    int canvas_child_count = GameManager.instance.canvas.gameObject.transform.childCount;
+                    if (canvas_child_count <= 0){
+                        event_type = -1;
+                        event_num = event_num + choice_num;
+                        eventHandler(event_data[event_num]);
+                    }
+                }
             }
         }
+    }
+
+    //Set Choice
+    public void setChoice(int choice) {
+        choice_num = choice;
     }
 
     //Save & Load File Functionality

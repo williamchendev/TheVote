@@ -23,6 +23,10 @@ public class PlayerBehavior : MonoBehaviour {
     private bool inventory_active;
     private GameObject[] inventory;
 
+    //Animation
+    private Animator anim;
+    private SpriteRenderer sr;
+
     //Init Player
 	void Awake () {
         //Grid
@@ -33,7 +37,7 @@ public class PlayerBehavior : MonoBehaviour {
         canmove = true;
         cutscene = false;
         moving = false;
-		spd = 1.8f;
+		spd = 2f;
         path_num = 0;
 
         //Inventory
@@ -49,6 +53,10 @@ public class PlayerBehavior : MonoBehaviour {
         }
         playeritem_obj = Instantiate((Resources.Load("Prefabs/pInvPlayer")) as GameObject, transform.position, transform.rotation);
         playeritem_obj.transform.parent = this.transform;
+
+        //Animation
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
 	}
 	
 	//Update Event
@@ -198,6 +206,14 @@ public class PlayerBehavior : MonoBehaviour {
                 else {
                     path_num++;
                 }
+
+                anim.Play("hannah_walk");
+                if (transform.position.x < path_array[path_num].x){
+                    sr.flipX = false;
+                }
+                else if (transform.position.x > path_array[path_num].x){
+                    sr.flipX = true;
+                }
             }
             else {
                 moving = false;
@@ -209,8 +225,11 @@ public class PlayerBehavior : MonoBehaviour {
                         interact = null;
                     }
                 }
+                anim.Play("hannah_idle");
             }
         }
+
+        transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.y + 500));
 	}
 
     //Inventory Methods
@@ -312,6 +331,9 @@ public class PlayerBehavior : MonoBehaviour {
     public bool inventory_act {
         get {
             return inventory_active;
+        }
+        set {
+            inventory_active = value;
         }
     }
 

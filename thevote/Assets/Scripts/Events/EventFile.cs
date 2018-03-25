@@ -76,6 +76,19 @@ public class EventFile {
                 new_event.Add(event_data[i + 2]);
                 i = i + 3;
             }
+            else if (event_data[i] == 9){
+                //Skip Event
+                new_event.Add(event_data[i + 1]);
+                new_event.Add(event_string[event_data[i + 2]]);
+                new_event.Add(event_string[event_data[i + 3]]);
+                new_event.Add(event_string[event_data[i + 4]]);
+                new_event.Add(event_string[event_data[i + 5]]);
+                new_event.Add(event_data[i + 6]);
+                new_event.Add(event_data[i + 7]);
+                new_event.Add(event_data[i + 8]);
+                new_event.Add(event_string[event_data[i + 9]]);
+                i = i + 10;
+            }
             list.Add(new_event);
         }
         return list;
@@ -139,6 +152,42 @@ public class EventFile {
         event_data.Add(8);
         event_data.Add(key);
         event_data.Add(skip);
+    }
+
+    public void addChoice(string hashid, string text, string choiceA, int skipA, string choiceB, int skipB) {
+        event_data.Add(9);
+        event_data.Add(2);
+        event_data.Add(event_string.Count);
+        event_string.Add(text);
+        event_data.Add(event_string.Count);
+        event_string.Add(choiceA);
+        event_data.Add(event_string.Count);
+        event_string.Add(choiceB);
+        event_data.Add(event_string.Count);
+        event_string.Add("");
+        event_data.Add(skipA);
+        event_data.Add(skipB);
+        event_data.Add(-1);
+        event_data.Add(event_string.Count);
+        event_string.Add(hashid);
+    }
+
+    public void addChoice(string hashid, string text, string choiceA, int skipA, string choiceB, int skipB, string choiceC, int skipC) {
+        event_data.Add(9);
+        event_data.Add(3);
+        event_data.Add(event_string.Count);
+        event_string.Add(text);
+        event_data.Add(event_string.Count);
+        event_string.Add(choiceA);
+        event_data.Add(event_string.Count);
+        event_string.Add(choiceB);
+        event_data.Add(event_string.Count);
+        event_string.Add(choiceC);
+        event_data.Add(skipA);
+        event_data.Add(skipB);
+        event_data.Add(skipC);
+        event_data.Add(event_string.Count);
+        event_string.Add(hashid);
     }
 
 }
