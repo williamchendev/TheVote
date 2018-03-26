@@ -68,7 +68,46 @@ public class TextScript : MonoBehaviour {
         transform.parent = GameManager.instance.canvas.gameObject.transform;
         cam = GameManager.instance.canvas.worldCamera;
         position = new Vector3(transform.position.x, transform.position.y, -1f * GameManager.instance.canvas.transform.childCount);
-        Update();
+
+        //Set Text Details
+        Vector3 real_position = new Vector3(((cam.transform.position.x / 32) + position.x), ((cam.transform.position.y / 32) + position.y), position.z);
+        real_position = new Vector3(real_position.x - (real_position.x % 0.03125f), real_position.y - (real_position.y % 0.03125f), real_position.z);
+        transform.position = real_position;
+
+		//Draw Sin
+        sin_val += 0.009f;
+		if (sin_val > 1f){
+            sin_val = 0f;
+        }
+        float draw_sin = (Mathf.Sin(sin_val * 2 * Mathf.PI) + 1) / 2f;
+
+        //Text Calculations
+        if (!destroy){
+            if (text_obj.text.Length < text.Length){
+                if (texttimer < 1){
+                    texttimer += spd;
+                }
+                else {
+                    texttimer = 0;
+                    text_obj.text = text.Substring(0, text_obj.text.Length + 1);
+                }
+            }
+        }
+
+        //Box Dimensions
+        width = Mathf.Clamp(text_obj.preferredWidth, 0, text_obj.gameObject.GetComponent<RectTransform>().sizeDelta.x) + offset;
+        height = text_obj.preferredHeight + offset;
+        width = Mathf.Round(width) + Mathf.Round(draw_sin * sin_offset);
+        height = Mathf.Round(height) + Mathf.Round(draw_sin * sin_offset);  
+
+        hBox.transform.localScale = new Vector3(width, height - 10, 1);
+        vBox.transform.localScale = new Vector3(width - 10, height, 1);
+
+        //Corner placement
+        corners[0].transform.position = new Vector3(real_position.x - ((width / 32) / 2), real_position.y + ((height / 32) / 2), real_position.z);
+        corners[1].transform.position = new Vector3(real_position.x + ((width / 32) / 2), real_position.y + ((height / 32) / 2), real_position.z);
+        corners[2].transform.position = new Vector3(real_position.x + ((width / 32) / 2), real_position.y - ((height / 32) / 2), real_position.z);
+        corners[3].transform.position = new Vector3(real_position.x - ((width / 32) / 2), real_position.y - ((height / 32) / 2), real_position.z);
 	}
 	
 	//Update Event

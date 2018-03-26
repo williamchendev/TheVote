@@ -228,6 +228,9 @@ public class PlayerBehavior : MonoBehaviour {
                 anim.Play("hannah_idle");
             }
         }
+        else {
+            anim.Play("hannah_idle");
+        }
 
         transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.y + 500));
 	}
