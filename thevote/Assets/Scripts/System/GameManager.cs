@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour {
     //Update Event
     void Update () {
         if (Input.GetKeyDown(KeyCode.R)){
-
+            SceneManager.LoadScene("Diner");
         }
 	}
 

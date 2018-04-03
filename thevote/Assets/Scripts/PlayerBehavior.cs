@@ -75,6 +75,8 @@ public class PlayerBehavior : MonoBehaviour {
                     interact = null;
                 }
 
+                //Check Inventory
+                Vector2 move_click_v2 = new Vector2(move_v2.x, move_v2.y);
                 if (Vector2.Distance(move_v2, new Vector2(transform.position.x, transform.position.y + 1.7f)) < 0.5f){
                     canmove = false;
                     inventory_active = true;
@@ -82,45 +84,47 @@ public class PlayerBehavior : MonoBehaviour {
                         inventory[q].GetComponent<InventoryScript>().setActive = true;
                         inventory[q].GetComponent<InventoryScript>().setAngle((Mathf.PI + (1.0471975512f * q)) + Random.Range(-0.4f, 0.4f) + 0.52359877559f);
                     }
+                    Update();
+                    return;
                 }
+                else {
+                    //Check Point Items
+                    RaycastHit2D[] click_ray = Physics2D.RaycastAll(new Vector2(v3.x, v3.y), Vector2.zero, Mathf.Infinity);
+                    int importance = 10;
+                    for (int i = 0; i < click_ray.Length; i++){
+                        if (click_ray[i].collider != null){
+                            bool higher_importance = false;
+                            if (click_ray[i].collider.gameObject.tag == "Item"){
+                                if (importance > 0){
+                                    importance = 0;
+                                    higher_importance = true;
+                                }
+                            }
+                            else if (click_ray[i].collider.gameObject.tag == "NPC"){
+                                if (importance > 1){
+                                    importance = 1;
+                                    higher_importance = true;
+                                }
+                            }
+                            else if (click_ray[i].collider.gameObject.tag == "Banter"){
+                                if (importance > 2){
+                                    importance = 2;
+                                    higher_importance = true;
+                                }
+                            }
+                            else if (click_ray[i].collider.gameObject.tag == "Door"){
+                                if (importance > 3){
+                                    importance = 3;
+                                    higher_importance = true;
+                                }
+                            }
 
-                //Check Point
-                RaycastHit2D[] click_ray = Physics2D.RaycastAll(new Vector2(v3.x, v3.y), Vector2.zero, Mathf.Infinity);
-                Vector2 move_click_v2 = new Vector2(move_v2.x, move_v2.y);
-                int importance = 10;
-                for (int i = 0; i < click_ray.Length; i++){
-                    if (click_ray[i].collider != null){
-                        bool higher_importance = false;
-                        if (click_ray[i].collider.gameObject.tag == "Item"){
-                            if (importance > 0){
-                                importance = 0;
-                                higher_importance = true;
+                            if (higher_importance){
+                                interact = click_ray[i].collider.gameObject.GetComponent<InteractableBehavior>();
+                                interact.selected = true;
+                                move_click_v2 = click_ray[i].collider.gameObject.GetComponent<InteractableBehavior>().getPosition();
+                                position_found = true;
                             }
-                        }
-                        else if (click_ray[i].collider.gameObject.tag == "NPC"){
-                            if (importance > 1){
-                                importance = 1;
-                                higher_importance = true;
-                            }
-                        }
-                        else if (click_ray[i].collider.gameObject.tag == "Banter"){
-                            if (importance > 2){
-                                importance = 2;
-                                higher_importance = true;
-                            }
-                        }
-                        else if (click_ray[i].collider.gameObject.tag == "Door"){
-                            if (importance > 3){
-                                importance = 3;
-                                higher_importance = true;
-                            }
-                        }
-
-                        if (higher_importance){
-                            interact = click_ray[i].collider.gameObject.GetComponent<InteractableBehavior>();
-                            interact.selected = true;
-                            move_click_v2 = click_ray[i].collider.gameObject.GetComponent<InteractableBehavior>().getPosition();
-                            position_found = true;
                         }
                     }
                 }

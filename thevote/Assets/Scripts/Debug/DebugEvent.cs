@@ -97,12 +97,12 @@ public class DebugEvent : MonoBehaviour {
         file.addText("Anything you want in particular?", Vector2.zero, "player");
         file.addText("Some plastic spoons to gouge my eyes out", Vector2.zero, "Will");
         file.addText("Sure thing <3", Vector2.zero, "player");
-        file.addSkip(0, 30);
+        file.addSkip(0, 34);
 
         file.addSkip(1, 4);
         file.addText("I'm starvinggggggggg", Vector2.zero, "Will");
         file.addText("hurry up pleeeeaseeee", Vector2.zero, "Will");
-        file.addSkip(0, 26);
+        file.addSkip(0, 30);
 
         file.addText("So guess what I have for you", Vector2.zero, "Will");
         file.addText("Wait! Last time you gave me a surprise I had a panic attack", Vector2.zero, "player");
@@ -129,7 +129,11 @@ public class DebugEvent : MonoBehaviour {
         file.addText("What about his advisors? Or his board?", Vector2.zero, "player");
         file.addText("None of them are running.", Vector2.zero, "Will");
         file.addText("In fact all of them declined to enter this year's campaign", Vector2.zero, "Will");
-        file.addText("Which brings us to our main ", Vector2.zero, "Will");
+        file.addText("Which brings us to our main point", Vector2.zero, "Will");
+        file.addText("We need a candidate for mayor this year", Vector2.zero, "Will");
+        file.addText("You're going to help me badger Daryl Beavers into running for office", Vector2.zero, "Will");
+        file.addText("Annnnnnd this is where the demo ends", Vector2.zero, "player");
+        file.addText("You did it!", Vector2.zero, "Will");
 
         file.addEnd();
 

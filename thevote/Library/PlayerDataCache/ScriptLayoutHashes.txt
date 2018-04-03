@@ -1,7 +1,8 @@
-WindowsStandalone
+WebGL
 SceneListBegin?
 Assets/Scenes/Diner.unity
 SceneListEnd?
+12fa56fd5509200f4bd0431db7a8f28a Assembly-CSharp.dll:.ScrollingBackgroundScript
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 dbc29a6f2739d277c10da432d73adb6d UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
 8144169769d51429c4aedc8b0f92d47b UnityEngine.Timeline.dll:UnityEngine.Timeline.AnimationPlayableAsset
@@ -112,6 +113,7 @@ c8ec43f4b93cb8452d5a4d2bc7db9164 Assembly-CSharp.dll:.NPCComplexBehavior
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Transition
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.EventManager
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.RainEffectScript
 322cb40e1e282f28af980cbef7922a90 UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsEventTracker
 dc07d7ad69b399a46e92c483bf1c04ca UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsTracker
 bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
@@ -130,6 +132,7 @@ f68e844550d4510fcb81c90199626d8b Assembly-CSharp.dll:.NPCBehavior
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PlayerBehavior
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.SplashEffectScript
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.InventoryScript
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
