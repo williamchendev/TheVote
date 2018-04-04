@@ -10,8 +10,6 @@ public class SubChoiceScript : MonoBehaviour {
     [SerializeField] private string text;
 
     //Components
-    private Camera cam;
-
     private Text text_obj;
     private GameObject hBox;
     private GameObject vBox;
@@ -71,14 +69,13 @@ public class SubChoiceScript : MonoBehaviour {
 
         //Camera
         transform.parent = GameManager.instance.canvas.gameObject.transform;
-        cam = GameManager.instance.canvas.worldCamera;
         position = new Vector3(transform.position.x, transform.position.y, -1f * GameManager.instance.canvas.transform.childCount);
 	}
 	
 	//Update Event
 	void Update () {
         //Set Positions
-        Vector3 real_position = new Vector3(((cam.transform.position.x / 32) + position.x), ((cam.transform.position.y / 32) + position.y), position.z);
+        Vector3 real_position = new Vector3(position.x, position.y, position.z);
         real_position = new Vector3(real_position.x - (real_position.x % 0.03125f), real_position.y - (real_position.y % 0.03125f), real_position.z);
         transform.position = real_position;
 
@@ -125,7 +122,7 @@ public class SubChoiceScript : MonoBehaviour {
             }
         }
 
-        if (inside){
+        if (inside && boss.canHighlight()){
             if (Input.GetMouseButtonDown(0)){
                 if (!destroy){
                     destroy = true;

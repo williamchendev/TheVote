@@ -179,15 +179,29 @@ public class EventManager : MonoBehaviour {
             textbox.colorContent = text_color;
             textbox.textContent = text;
 
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            v2 = new Vector2(player.transform.position.x, player.transform.position.y + 3f);
-            for (int i = choice_num - 1; i >= 0; i--){
-                SubChoiceScript choiceA = Instantiate((Resources.Load("Prefabs/Text/pSubChoice")) as GameObject, new Vector3(v2.x, v2.y + (i * 0.85f), 0f), transform.rotation).GetComponent<SubChoiceScript>();
-                choiceA.textContent = (string) event_array[3 + i];
-                choiceA.choiceContent = (int) event_array[6 + i];
-                choiceA.setEvent = this.gameObject.GetComponent<EventManager>();
-                choiceA.choicescript = textbox;
-                choiceA.Start();
+            //GameObject player = GameObject.FindGameObjectWithTag("Player");
+            //v2 = new Vector2(player.transform.position.x, player.transform.position.y + 3f);
+            if (choice_num == 2) {
+                v2 = new Vector2(Camera.main.transform.position.x - 2.5f, Camera.main.transform.position.y - 3.5f);
+                for (int i = choice_num - 1; i >= 0; i--){
+                    SubChoiceScript choiceA = Instantiate((Resources.Load("Prefabs/Text/pSubChoice")) as GameObject, new Vector3(v2.x + (5f * i), v2.y, 0f), transform.rotation).GetComponent<SubChoiceScript>();
+                    choiceA.textContent = (string) event_array[3 + i];
+                    choiceA.choiceContent = (int) event_array[6 + i];
+                    choiceA.setEvent = this.gameObject.GetComponent<EventManager>();
+                    choiceA.choicescript = textbox;
+                    choiceA.Start();
+                }
+            }
+            else {
+                v2 = new Vector2(Camera.main.transform.position.x - 4f, Camera.main.transform.position.y - 3.5f);
+                for (int i = choice_num - 1; i >= 0; i--){
+                    SubChoiceScript choiceA = Instantiate((Resources.Load("Prefabs/Text/pSubChoice")) as GameObject, new Vector3(v2.x + (4f * i), v2.y, 0f), transform.rotation).GetComponent<SubChoiceScript>();
+                    choiceA.textContent = (string) event_array[3 + i];
+                    choiceA.choiceContent = (int) event_array[6 + i];
+                    choiceA.setEvent = this.gameObject.GetComponent<EventManager>();
+                    choiceA.choicescript = textbox;
+                    choiceA.Start();
+                }
             }
 
             textbox.Start();

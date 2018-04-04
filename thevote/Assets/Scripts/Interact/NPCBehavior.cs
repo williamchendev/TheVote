@@ -75,6 +75,13 @@ public class NPCBehavior : InteractableBehavior {
         if (action){
             if (!em.isActive){
                 PlayerBehavior player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>();
+                if (player.transform.position.x > transform.position.x) {
+                    player.GetComponent<SpriteRenderer>().flipX = true;
+                }
+                else {
+                    player.GetComponent<SpriteRenderer>().flipX = false;
+                }
+
                 if (player.useItem(-1)){
                     if (event_cycle){
                         if (event_num >= event_names.Length) {

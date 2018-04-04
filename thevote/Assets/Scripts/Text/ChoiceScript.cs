@@ -11,8 +11,6 @@ public class ChoiceScript : MonoBehaviour {
     [SerializeField] private Color color;
 
     //Components
-    private Camera cam;
-
     private Text text_obj;
     private GameObject hBox;
     private GameObject vBox;
@@ -33,6 +31,8 @@ public class ChoiceScript : MonoBehaviour {
     private float height;
 
     private bool destroy;
+
+    private int highlighted;
 
 	//Init Variables
     void Awake () {
@@ -58,6 +58,8 @@ public class ChoiceScript : MonoBehaviour {
         height = 0f;
 
         destroy = false;
+
+        highlighted = 0;
 	}
 
 	public void Start () {
@@ -70,14 +72,13 @@ public class ChoiceScript : MonoBehaviour {
 
         //Camera
         transform.parent = GameManager.instance.canvas.gameObject.transform;
-        cam = GameManager.instance.canvas.worldCamera;
         position = new Vector3(transform.position.x, transform.position.y, -1f * GameManager.instance.canvas.transform.childCount);
 	}
 	
 	//Update Event
 	void Update () {
         //Set Positions
-        Vector3 real_position = new Vector3(((cam.transform.position.x / 32) + position.x), ((cam.transform.position.y / 32) + position.y), position.z);
+        Vector3 real_position = new Vector3(position.x, position.y, position.z);
         real_position = new Vector3(real_position.x - (real_position.x % 0.03125f), real_position.y - (real_position.y % 0.03125f), real_position.z);
         transform.position = real_position;
 
@@ -139,7 +140,19 @@ public class ChoiceScript : MonoBehaviour {
                 Destroy(gameObject);
             }
         }
+
+        //Reset Highlight Counter
+        highlighted = 0;
 	}
+
+    public bool canHighlight() {
+        if (highlighted < 1){
+            highlighted++;
+            return true;
+        }
+        highlighted++;
+        return false;
+    }
 
     //Get and Set Methods
     public string textContent {

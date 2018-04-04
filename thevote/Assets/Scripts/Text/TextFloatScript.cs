@@ -13,8 +13,6 @@ public class TextFloatScript : MonoBehaviour {
     [SerializeField] private int timer;
 
     //Components
-    private Camera cam;
-
     private Text text_obj;
     private Text[] outline;
 
@@ -58,14 +56,18 @@ public class TextFloatScript : MonoBehaviour {
 
         //Camera
         transform.parent = GameManager.instance.canvas.gameObject.transform;
-        cam = GameManager.instance.canvas.worldCamera;
         position = new Vector3(transform.position.x, transform.position.y, -1f * GameManager.instance.canvas.transform.childCount);
+
+        //Set Text Details
+        Vector3 real_position = new Vector3(position.x, position.y, position.z);
+        real_position = new Vector3(real_position.x - (real_position.x % 0.03125f), real_position.y - (real_position.y % 0.03125f), real_position.z);
+        transform.position = real_position;
 	}
 
     //Update Event
 	void Update () {
         //Calc Positions
-        Vector3 real_position = new Vector3(((cam.transform.position.x / 32) + position.x), ((cam.transform.position.y / 32) + position.y), position.z);
+        Vector3 real_position = new Vector3(position.x, position.y, position.z);
         real_position = new Vector3(real_position.x - (real_position.x % 0.03125f), real_position.y - (real_position.y % 0.03125f), real_position.z);
         transform.position = real_position;
         text_obj.transform.position = real_position;
