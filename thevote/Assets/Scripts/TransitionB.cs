@@ -14,7 +14,7 @@ public class TransitionB : Transition {
     //Init
 	void Awake () {
         base.finished = true;
-        base.position = transform.position;
+        base.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
         spd = 0.05f;
 
         transform.position = new Vector3(position.x, position.y, position.z);
@@ -39,6 +39,10 @@ public class TransitionB : Transition {
 	
 	//Update
 	void Update () {
+        //Reset Camera and Y position
+        base.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x, position.y, transform.position.z);
+
         spd *= 1.06f;
         if (Mathf.Abs(transform.position.x - position.x) < 18){
             if (direction){

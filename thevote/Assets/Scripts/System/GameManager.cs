@@ -14,6 +14,12 @@ public class GameManager : MonoBehaviour {
 
     //Save System
     private SaveFile save_file;
+
+    //Audio Management
+    private AudioSource aus;
+    private AudioSource aus_loop;
+    private float volume;
+    private float audiofade;
     
     //Player Scene Management
     private bool init_scene;
@@ -40,6 +46,13 @@ public class GameManager : MonoBehaviour {
             Destroy(this.gameObject);
             return;
         }
+
+        //Audio Manager
+        aus = gameObject.AddComponent<AudioSource>();
+        aus_loop = gameObject.AddComponent<AudioSource>();
+        aus_loop.loop = true;
+        volume = 0.7f;
+        audiofade = 1f;
 
         //Settings
         uicanvas = GetComponentInChildren<Canvas>();
@@ -89,6 +102,15 @@ public class GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.R)){
             SceneManager.LoadScene("Diner");
         }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow)){
+            audiofade += 0.1f;
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow)){
+            audiofade -= 0.1f;
+        }
+        aus.volume = volume * audiofade;
+        aus_loop.volume = volume * audiofade;
 	}
 
     //Scene Management
@@ -100,6 +122,20 @@ public class GameManager : MonoBehaviour {
         player_facing = player.gameObject.GetComponent<SpriteRenderer>().flipX;
         player_door = door_num;
         SceneManager.LoadScene(name, LoadSceneMode.Single);
+    }
+
+    //Audio Management
+    public void playSound(string soundname){
+        aus.PlayOneShot(Resources.Load("AudioClip/" + soundname) as AudioClip, volume * audiofade);
+    }
+
+    public void playSoundLoop(string soundname){
+        if (aus_loop.isPlaying){
+            aus_loop.Stop();
+        }
+        aus_loop.clip = Resources.Load("AudioClip/" + soundname) as AudioClip;
+        aus_loop.Play();
+        aus_loop.volume = volume * audiofade;
     }
 
     //Save Management

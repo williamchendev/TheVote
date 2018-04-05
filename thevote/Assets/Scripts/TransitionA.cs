@@ -15,7 +15,7 @@ public class TransitionA : Transition {
     //Init
 	void Awake () {
         base.finished = false;
-        base.position = transform.position;
+        base.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
         spd = 0.05f;
         timer = 60;
 		if (direction){
@@ -44,10 +44,15 @@ public class TransitionA : Transition {
 	
 	//Update
 	void Update () {
+        //Reset Camera and Y position
+        base.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x, position.y, transform.position.z);
+
+        //Move Transition Slide
 		if (timer > 0){
             timer--;
             spd *= 1.06f;
-            if (transform.position != position){
+            if (Mathf.Abs(transform.position.x - position.x) > 0.03f){
                 if (direction){
                     transform.position = new Vector3(transform.position.x - spd, transform.position.y, transform.position.z);
                     tilt.transform.position = new Vector3(tilt.transform.position.x - spd, tilt.transform.position.y, tilt.transform.position.z);
