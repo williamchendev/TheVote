@@ -27,6 +27,12 @@ public class GameManager : MonoBehaviour {
     private bool player_facing;
     private int player_door;
 
+    //Transition Management
+    private bool transitioning;
+    private Transition transitionA;
+    private string transitionB;
+    private string transition_scene;
+
 	//Init Manager
 	void Awake () {
         //Set Resolution
@@ -54,6 +60,11 @@ public class GameManager : MonoBehaviour {
         volume = 0.7f;
         audiofade = 1f;
 
+        //Transition Manager
+        transitioning = false;
+        transitionB = null;
+        transition_scene = null;
+
         //Settings
         uicanvas = GetComponentInChildren<Canvas>();
         init_scene = false;
@@ -70,6 +81,14 @@ public class GameManager : MonoBehaviour {
  
     private void OnSceneLoaded (Scene scene, LoadSceneMode mode) {
         if (init_scene){
+            //Init Transition
+            if (transitionB != null){
+                Instantiate((Resources.Load("Prefabs/transitions/p" + transitionB)) as GameObject, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 1.5f), transform.rotation);
+                transitioning = false;
+                transitionB = null;
+            }
+
+            //Init Player
             Vector2 player_position = Vector2.zero;
             GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
             if (doors.Length > 0){
@@ -99,10 +118,20 @@ public class GameManager : MonoBehaviour {
 
     //Update Event
     void Update () {
+        //Transition Checks
+        if (transitioning) {
+            if (transitionA.end){
+                transitioning = false;
+                changeScene(transition_scene);
+            }
+        }
+
+        //Debug Reload Scene
         if (Input.GetKeyDown(KeyCode.R)){
             SceneManager.LoadScene("Diner");
         }
 
+        //Debug Audio
         if (Input.GetKeyDown(KeyCode.UpArrow)){
             audiofade += 0.1f;
         }
@@ -114,14 +143,23 @@ public class GameManager : MonoBehaviour {
 	}
 
     //Scene Management
-    public void changeScene (string name, int door_num){
+    public void changeScene (string name){
         init_scene = true;
+        SceneManager.LoadScene(name, LoadSceneMode.Single);
+    }
+
+    public void transition(string scene_name, int door_num, string transition_nameA, string transition_nameB) {
+        transitioning = true;
+        transitionA = Instantiate((Resources.Load("Prefabs/transitions/p" + transition_nameA)) as GameObject, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 1.5f), transform.rotation).GetComponent<Transition>();
+        transitionB = transition_nameB;
+        transition_scene = scene_name;
+
         PlayerBehavior player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>();
         player.cleanItem();
         player_inventory = player.allItem();
         player_facing = player.gameObject.GetComponent<SpriteRenderer>().flipX;
         player_door = door_num;
-        SceneManager.LoadScene(name, LoadSceneMode.Single);
+        player.can_move = false;
     }
 
     //Audio Management

@@ -12,6 +12,7 @@ public class DoorScript : InteractableBehavior {
     //Settings
     private int[] player_items;
     private int facing;
+    private bool transition;
 
 	// Use this for initialization
 	protected override void init() {
@@ -20,6 +21,7 @@ public class DoorScript : InteractableBehavior {
 
         //Settings
 		gameObject.tag = "Door";
+        transition = false;
 	}
 	
 	//Update Event
@@ -31,7 +33,10 @@ public class DoorScript : InteractableBehavior {
 
         //Item Behavior Event
         if (action){
-            GameManager.instance.changeScene(scene_name, door_id);
+            if (!transition){
+                transition = true;
+                GameManager.instance.transition(scene_name, door_id, "TransitionA", "TransitionB");
+            }
         }
 	}
 

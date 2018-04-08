@@ -18,7 +18,7 @@ public class TransitionB : Transition {
         spd = 0.05f;
 
         transform.position = new Vector3(position.x, position.y, position.z);
-        transform.localScale = new Vector3(15f, 8.5f, 1f);
+        transform.localScale = new Vector3(15.5f, 8.5f, 1f);
 		if (direction){
             //Comes from the Right Side
             tilt = new GameObject("TransitionB_tilt", typeof(SpriteRenderer), typeof(PixelSnap));
