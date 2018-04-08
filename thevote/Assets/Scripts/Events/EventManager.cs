@@ -128,6 +128,12 @@ public class EventManager : MonoBehaviour {
         }
         else if (event_type == 4){
             //Transition
+            string scene_name = (string) event_array[1];
+            int door_num = (int) event_array[2];
+            string transitionA = (string) event_array[3];
+            string transitionB = (string) event_array[4];
+
+            GameManager.instance.transition(scene_name, door_num, transitionA, transitionB);
         }
         else if (event_type == 5){
             //Music

@@ -52,8 +52,11 @@ public class EventFile {
             }
             else if (event_data[i] == 4){
                 //Transition
-                new_event.Add(event_string[event_data[i + 1]]); //Transition Name
-                i = i + 2;
+                new_event.Add(event_string[event_data[i + 1]]); //Scene Name
+                new_event.Add(event_data[i + 2]); //Door Num
+                new_event.Add(event_string[event_data[i + 3]]); //TransitionA Name
+                new_event.Add(event_string[event_data[i + 4]]); //TransitionB Name
+                i = i + 5;
             }
             else if (event_data[i] == 5){
                 //Play Music
@@ -127,10 +130,15 @@ public class EventFile {
         event_vector.Add(new Vector3(position.x, position.y, 0f));
     }
 
-    public void addTransition(string transition_name){
+    public void addTransition(string scene_name, int door_num, string transitionA_name, string transitionB_name){
         event_data.Add(4);
         event_data.Add(event_string.Count);
-        event_string.Add(transition_name);
+        event_string.Add(scene_name);
+        event_data.Add(door_num);
+        event_data.Add(event_string.Count);
+        event_string.Add(transitionA_name);
+        event_data.Add(event_string.Count);
+        event_string.Add(transitionB_name);
     }
 
     public void addMusic(string track_name){

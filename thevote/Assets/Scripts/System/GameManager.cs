@@ -81,13 +81,6 @@ public class GameManager : MonoBehaviour {
  
     private void OnSceneLoaded (Scene scene, LoadSceneMode mode) {
         if (init_scene){
-            //Init Transition
-            if (transitionB != null){
-                Instantiate((Resources.Load("Prefabs/transitions/p" + transitionB)) as GameObject, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 1.5f), transform.rotation);
-                transitioning = false;
-                transitionB = null;
-            }
-
             //Init Player
             Vector2 player_position = Vector2.zero;
             GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
@@ -110,6 +103,20 @@ public class GameManager : MonoBehaviour {
             player.transform.position = new Vector3(player_position.x, player_position.y, 0f);
             player.GetComponent<SpriteRenderer>().flipX = player_facing;
             player.GetComponent<PlayerBehavior>().hideItem();
+
+            //Center Camera
+            if (Camera.main.GetComponent<CameraBehavior>() != null){
+                Camera.main.GetComponent<CameraBehavior>().recenterCam();
+            }
+
+            //Init Transition
+            if (transitionB != null){
+                Instantiate((Resources.Load("Prefabs/transitions/p" + transitionB)) as GameObject, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 1.5f), transform.rotation);
+                transitioning = false;
+                transitionB = null;
+            }
+
+            //End Init
             init_scene = false;
         }
 

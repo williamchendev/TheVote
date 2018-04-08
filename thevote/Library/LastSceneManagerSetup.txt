@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Final/Diner.unity
+- path: Assets/Scenes/Final/BusStop.unity
   isLoaded: 1
   isActive: 1

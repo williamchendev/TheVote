@@ -1,0 +1,39 @@
+{
+    "event_data": [
+        9,
+        2,
+        0,
+        1,
+        2,
+        3,
+        1,
+        2,
+        -1,
+        4,
+        4,
+        5,
+        1,
+        6,
+        7,
+        4,
+        8,
+        2,
+        9,
+        10,
+        7
+    ],
+    "event_string": [
+        "choice",
+        "Diner",
+        "Bus Stop",
+        "",
+        "player",
+        "Diner",
+        "TransitionA",
+        "TransitionB",
+        "BusStop",
+        "TransitionA",
+        "TransitionB"
+    ],
+    "event_vector": []
+}

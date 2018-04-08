@@ -77,7 +77,7 @@ public class DebugEvent : MonoBehaviour {
         file.addEnd();
         */
 
-        
+        /*
         file.addSkip(0, 20);
         file.addKey(0);
         file.addText("Omg you weren't kidding", Vector2.zero, "player");
@@ -136,6 +136,7 @@ public class DebugEvent : MonoBehaviour {
         file.addText("You did it!", Vector2.zero, "Will");
 
         file.addEnd();
+        */
 
         /*
         file.addText("Waffles?", Vector2.zero, "Ellie");
@@ -144,7 +145,12 @@ public class DebugEvent : MonoBehaviour {
         file.addEnd();
         */
 
-        em.saveFile("WillDinerA", file);
+        file.addChoice("player", "choice", "Diner", 1, "Bus Stop", 2);
+        file.addTransition("Diner", 1, "TransitionA", "TransitionB");
+        file.addTransition("BusStop", 2, "TransitionA", "TransitionB");
+        file.addEnd();
+
+        em.saveFile("TransitionTest", file);
     }
 
 }
