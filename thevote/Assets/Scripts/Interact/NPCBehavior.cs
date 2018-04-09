@@ -19,8 +19,8 @@ public class NPCBehavior : InteractableBehavior {
     protected string questevent_nameC;
 
     //Components
-    private EventManager em;
-    private PathScript path;
+    protected EventManager em;
+    protected PathScript path;
 
     //Settings
     protected float spd;
@@ -31,7 +31,7 @@ public class NPCBehavior : InteractableBehavior {
     protected Vector2[] path_array;
 
     //Events
-    private int event_num;
+    protected int event_num;
 
 	//Init
 	protected override void init() {
@@ -122,20 +122,7 @@ public class NPCBehavior : InteractableBehavior {
 
         //NPC Movement
         if (moving){
-            Vector2 current_pos = new Vector2(transform.position.x, transform.position.y);
-            if (current_pos != path_array[path_array.Length - 1]){
-                if (current_pos != path_array[path_num]){
-                    current_pos = Vector2.MoveTowards(current_pos, path_array[path_num], spd * Time.deltaTime);
-                    transform.position = new Vector3(current_pos.x, current_pos.y, transform.position.z);
-                }
-                else {
-                    path_num++;
-                }
-            }
-            else {
-                moving = false;
-                cutscene = false;
-            }
+            movement();
         }
 	}
 
@@ -153,6 +140,31 @@ public class NPCBehavior : InteractableBehavior {
         }
         cutscene = true;
         moving = true;
+    }
+
+    public void movement() {
+        Vector2 current_pos = new Vector2(transform.position.x, transform.position.y);
+        if (current_pos != path_array[path_array.Length - 1]){
+            if (current_pos != path_array[path_num]){
+                current_pos = Vector2.MoveTowards(current_pos, path_array[path_num], spd * Time.deltaTime);
+                transform.position = new Vector3(current_pos.x, current_pos.y, transform.position.z);
+            }
+            else {
+                path_num++;
+                movement();
+            }
+
+            if (transform.position.x < path_array[path_num].x){
+                sr.flipX = false;
+            }
+            else if (transform.position.x > path_array[path_num].x){
+                sr.flipX = true;
+            }
+        }
+        else {
+            moving = false;
+            cutscene = false;
+        }
     }
 
     public bool can_move {

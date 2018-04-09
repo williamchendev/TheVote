@@ -145,12 +145,10 @@ public class DebugEvent : MonoBehaviour {
         file.addEnd();
         */
 
-        file.addChoice("player", "choice", "Diner", 1, "Bus Stop", 2);
-        file.addTransition("Diner", 1, "TransitionA", "TransitionB");
-        file.addTransition("BusStop", 2, "TransitionA", "TransitionB");
+        file.addMovement("will", new Vector2(0, 0));
         file.addEnd();
 
-        em.saveFile("TransitionTest", file);
+        em.saveFile("MoveTest", file);
     }
 
 }
