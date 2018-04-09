@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Final/BusStop.unity
+- path: Assets/Scenes/Final/Bathroom.unity
   isLoaded: 1
   isActive: 1

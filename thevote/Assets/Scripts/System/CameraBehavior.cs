@@ -11,6 +11,8 @@ public class CameraBehavior : MonoBehaviour {
     [SerializeField] private GameObject parallax_A;
 
 	//Variables
+    private bool centered = false;
+
     private bool cutscene_bool;
     private Vector3 cutscene_pos;
     private Vector3 position;
@@ -23,6 +25,10 @@ public class CameraBehavior : MonoBehaviour {
     //Init
     void Start() {
         spd = 0.02f;
+
+        if (!centered){
+            recenterCam();
+        }
 
         if (parallax_A != null){
             parallax_A_pos = new Vector2(parallax_A.transform.position.x, parallax_A.transform.position.y);
@@ -58,6 +64,7 @@ public class CameraBehavior : MonoBehaviour {
 
     //Public Functions
     public void recenterCam() {
+        centered = true;
         clamp_pos = new Vector2(transform.position.x, transform.position.y);
         follow_obj = GameObject.FindGameObjectWithTag("Player");
         transform.position = new Vector3(follow_obj.transform.position.x, follow_obj.transform.position.y , transform.position.z);
