@@ -121,6 +121,10 @@ public class NPCFollowBehavior : NPCBehavior {
         moving = true;
     }
 
+    public void setFollow(GameObject new_follow) {
+        follow = new_follow;
+    }
+
     //Debug
     void OnDrawGizmos() {
         Gizmos.color = Color.blue;

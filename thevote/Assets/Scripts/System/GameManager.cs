@@ -104,6 +104,16 @@ public class GameManager : MonoBehaviour {
             player.GetComponent<SpriteRenderer>().flipX = player_facing;
             player.GetComponent<PlayerBehavior>().hideItem();
 
+            //Find Will and put him next to Hannah
+            GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
+            for (int i = 0; i < npcs.Length; i++){
+                if (npcs[i].GetComponent<NPCBehavior>().hashid == "Will"){
+                    npcs[i].transform.position = player.transform.position;
+                    npcs[i].GetComponent<NPCFollowBehavior>().setFollow(player.gameObject);
+                    break;
+                }
+            }
+
             //Center Camera
             if (Camera.main.GetComponent<CameraBehavior>() != null){
                 Camera.main.GetComponent<CameraBehavior>().recenterCam();
