@@ -61,6 +61,15 @@ public class PlayerBehavior : MonoBehaviour {
 	
 	//Update Event
 	void Update () {
+        //Check Game Paused
+        if (GameManager.instance.getPause()){
+            anim.enabled = false;
+            return;
+        }
+        else {
+            anim.enabled = true;
+        }
+
         //Movement
         if (canmove){
             if (Input.GetMouseButtonDown(0)){

@@ -33,6 +33,11 @@ public class GameManager : MonoBehaviour {
     private string transitionB;
     private string transition_scene;
 
+    //Pause Menu
+    private bool pause_check;
+    private bool pause_delay;
+    private GameObject pause;
+
 	//Init Manager
 	void Awake () {
         //Set Resolution
@@ -68,6 +73,17 @@ public class GameManager : MonoBehaviour {
         //Settings
         uicanvas = GetComponentInChildren<Canvas>();
         init_scene = false;
+
+        //Pause Menu
+        pause_check = false;
+        pause_delay = false;
+        pause = Instantiate(Resources.Load("UI/pUIMenu") as GameObject, transform.position, transform.rotation);
+        pause.transform.parent = transform;
+        pause.transform.GetChild(0).position = new Vector3(Camera.main.transform.position.x - 7f, Camera.main.transform.position.y + 3.75f, -8f);
+        pause.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.6f);
+        pause.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        pause.transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        pause.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
 	}
 
     //Scene Load Event
@@ -108,8 +124,10 @@ public class GameManager : MonoBehaviour {
             GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
             for (int i = 0; i < npcs.Length; i++){
                 if (npcs[i].GetComponent<NPCBehavior>().hashid == "Will"){
-                    npcs[i].transform.position = player.transform.position;
-                    npcs[i].GetComponent<NPCFollowBehavior>().setFollow(player.gameObject);
+                    if (npcs[i].GetComponent<NPCFollowBehavior>() != null){
+                        npcs[i].transform.position = player.transform.position;
+                        npcs[i].GetComponent<NPCFollowBehavior>().setFollow(player.gameObject);
+                    }
                     break;
                 }
             }
@@ -143,6 +161,33 @@ public class GameManager : MonoBehaviour {
             }
         }
 
+        //Pause Game
+        if (Input.GetMouseButtonDown(0)){
+            Vector3 v2 = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+            if (Vector2.Distance(v2, new Vector2(Camera.main.transform.position.x - 7f, Camera.main.transform.position.y + 3.75f)) < 0.35f){
+                if (!pause_check){
+                    pause_check = true;
+                }
+                else {
+                    pause_delay = true;
+                }
+            }
+            else if (Vector2.Distance(v2, new Vector2(Camera.main.transform.position.x - 3.9f, Camera.main.transform.position.y + 3.75f)) < 0.25f) {
+                if (pause_check){
+                    Application.Quit();
+                }
+            }
+            else {
+                if (Mathf.Abs(v2.x - (Camera.main.transform.position.x - 4.9f)) < 0.5){
+                    if (Mathf.Abs(v2.y - (Camera.main.transform.position.y + 3.81f)) < 0.25){
+                        int vol_change = (int) (Mathf.Round(((v2.x - (Camera.main.transform.position.x - 4.9f)) * 1.05f) * 10)) + 5;
+                        volume = Mathf.Clamp((vol_change / 10.0f), 0, 1);
+                        Debug.Log(vol_change);
+                    }
+                }
+            }
+        }
+
         //Debug Reload Scene
         if (Input.GetKeyDown(KeyCode.R)){
             SceneManager.LoadScene("Diner");
@@ -150,14 +195,50 @@ public class GameManager : MonoBehaviour {
 
         //Debug Audio
         if (Input.GetKeyDown(KeyCode.UpArrow)){
-            audiofade += 0.1f;
+            volume += 0.1f;
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow)){
-            audiofade -= 0.1f;
+            volume -= 0.1f;
         }
+        volume = Mathf.Clamp(volume, 0, 1);
         aus.volume = volume * audiofade;
         aus_loop.volume = volume * audiofade;
 	}
+
+    //Pause Functions
+    void LateUpdate () {
+        //Pause Menu
+        pause.transform.GetChild(0).position = new Vector3(Camera.main.transform.position.x - 7f, Camera.main.transform.position.y + 3.75f, -8f);
+        pause.transform.GetChild(1).position = new Vector3(Camera.main.transform.position.x - 6f, Camera.main.transform.position.y + 3.78f, -8f);
+        pause.transform.GetChild(1).transform.GetChild(0).transform.position = new Vector3(Camera.main.transform.position.x - 4.9f, Camera.main.transform.position.y + 3.81f, -8f);
+        pause.transform.GetChild(2).position = new Vector3(Camera.main.transform.position.x - 3.9f, Camera.main.transform.position.y + 3.75f, -8f);
+
+        if (pause_delay){
+            pause_delay = false;
+            pause_check = false;
+        }
+
+        int vol_string = (int) Mathf.Round(volume * 10);
+        pause.transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<Animator>().Play("volume" + vol_string);
+
+        if (pause_check){
+            pause.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
+            pause.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, Mathf.Lerp(pause.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().color.a, 1, Time.deltaTime * 5f));
+            pause.transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, Mathf.Lerp(pause.transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color.a, 1, Time.deltaTime * 5f));
+            pause.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, Mathf.Lerp(pause.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color.a, 1, Time.deltaTime * 5f));
+        }
+        else {
+            pause.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.6f);
+            pause.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, Mathf.Lerp(pause.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().color.a, 0, Time.deltaTime * 5f));
+            pause.transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, Mathf.Lerp(pause.transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color.a, 0, Time.deltaTime * 5f));
+            pause.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, Mathf.Lerp(pause.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color.a, 0, Time.deltaTime * 5f));
+        }
+    }
+
+    public bool getPause() {
+        //Check if paused
+        return pause_check;
+    }
 
     //Scene Management
     public void changeScene (string name){

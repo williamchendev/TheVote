@@ -136,13 +136,15 @@ public class TextScript : MonoBehaviour {
 
         //Check Click
         if (Input.GetMouseButtonDown(0)){
-            if (text_obj.text.Length < text.Length){
-                text_obj.text = text;
-            }
-            else {
-                destroy = true;
-                if (text_obj != null){
-                    Destroy(text_obj.gameObject);
+            if (!GameManager.instance.getPause()){
+                if (text_obj.text.Length < text.Length){
+                    text_obj.text = text;
+                }
+                else {
+                    destroy = true;
+                    if (text_obj != null){
+                        Destroy(text_obj.gameObject);
+                    }
                 }
             }
         }
