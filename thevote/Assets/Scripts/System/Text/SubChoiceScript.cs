@@ -29,6 +29,8 @@ public class SubChoiceScript : MonoBehaviour {
 
     private float alpha;
 
+    private int audio_counter;
+
     private bool destroy;
     private ChoiceScript boss;
     private EventManager em;
@@ -55,6 +57,8 @@ public class SubChoiceScript : MonoBehaviour {
         width = 0f;
         height = 0f;
 
+        audio_counter = 0;
+
         destroy = false;
 	}
 
@@ -75,7 +79,7 @@ public class SubChoiceScript : MonoBehaviour {
 	//Update Event
 	void Update () {
         //Set Positions
-        Vector3 real_position = new Vector3(position.x, position.y, position.z);
+        Vector3 real_position = new Vector3(Camera.main.transform.position.x + position.x, Camera.main.transform.position.y + position.y, position.z);
         real_position = new Vector3(real_position.x - (real_position.x % 0.03125f), real_position.y - (real_position.y % 0.03125f), real_position.z);
         transform.position = real_position;
 
@@ -106,6 +110,17 @@ public class SubChoiceScript : MonoBehaviour {
                 else {
                     texttimer = 0;
                     text_obj.text = text.Substring(0, text_obj.text.Length + 1);
+
+                    audio_counter--;
+                    if (audio_counter <= 0) {
+                        //Play Type Writer Audio Clip
+                        int rand_aud = Random.Range(0, 10);
+                        string aud_path = "TypeWriterSFX/TypeSFX" + rand_aud;
+                        
+                        GameManager.instance.playSound(aud_path);
+                        
+                        audio_counter = 2;
+                    }
                 }
             }
         }

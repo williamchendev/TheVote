@@ -16,8 +16,9 @@ public class GameManager : MonoBehaviour {
     private SaveFile save_file;
 
     //Audio Management
-    private AudioSource aus;
+    private List<AudioSource> aus;
     private AudioSource aus_loop;
+    private AudioSource aus_ambient;
     private float volume;
     private float audiofade;
     
@@ -59,11 +60,13 @@ public class GameManager : MonoBehaviour {
         }
 
         //Audio Manager
-        aus = gameObject.AddComponent<AudioSource>();
+        aus = new List<AudioSource>();
         aus_loop = gameObject.AddComponent<AudioSource>();
         aus_loop.loop = true;
+        aus_ambient = gameObject.AddComponent<AudioSource>();
+        aus_ambient.loop = true;
         volume = 0.7f;
-        audiofade = 1f;
+        audiofade = 0f;
 
         //Transition Manager
         transitioning = false;
@@ -125,8 +128,9 @@ public class GameManager : MonoBehaviour {
             for (int i = 0; i < npcs.Length; i++){
                 if (npcs[i].GetComponent<NPCBehavior>().hashid == "Will"){
                     if (npcs[i].GetComponent<NPCFollowBehavior>() != null){
-                        npcs[i].transform.position = player.transform.position;
+                        npcs[i].transform.position = new Vector3(player_position.x, player_position.y + 0.0001f, 0);
                         npcs[i].GetComponent<NPCFollowBehavior>().setFollow(player.gameObject);
+                        npcs[i].GetComponent<SpriteRenderer>().flipX = player_facing;
                     }
                     break;
                 }
@@ -159,6 +163,23 @@ public class GameManager : MonoBehaviour {
                 transitioning = false;
                 changeScene(transition_scene);
             }
+            audiofade = Mathf.Lerp(audiofade, 0, Mathf.Pow(Time.deltaTime * 0.8f, 0.8f));
+            if (audiofade < 0.15f){
+                audiofade = 0;
+                aus_loop.Pause();
+                aus_ambient.Stop();
+                for (int a = 0; a < aus.Count; a++){
+                    AudioSource aus_remove = aus[a];
+                    aus.Remove(aus_remove);
+                    Destroy(aus_remove);
+                }
+            }
+        }
+        else {
+            audiofade = Mathf.Lerp(audiofade, 1, Mathf.Pow(Time.deltaTime * 0.8f, 1.05f));
+            if (audiofade > 0.99f){
+                audiofade = 1;
+            }
         }
 
         //Pause Game
@@ -182,18 +203,12 @@ public class GameManager : MonoBehaviour {
                     if (Mathf.Abs(v2.y - (Camera.main.transform.position.y + 3.81f)) < 0.25){
                         int vol_change = (int) (Mathf.Round(((v2.x - (Camera.main.transform.position.x - 4.9f)) * 1.05f) * 10)) + 5;
                         volume = Mathf.Clamp((vol_change / 10.0f), 0, 1);
-                        Debug.Log(vol_change);
                     }
                 }
             }
         }
 
-        //Debug Reload Scene
-        if (Input.GetKeyDown(KeyCode.R)){
-            SceneManager.LoadScene("Diner");
-        }
-
-        //Debug Audio
+        //Audio Volume
         if (Input.GetKeyDown(KeyCode.UpArrow)){
             volume += 0.1f;
         }
@@ -201,8 +216,16 @@ public class GameManager : MonoBehaviour {
             volume -= 0.1f;
         }
         volume = Mathf.Clamp(volume, 0, 1);
-        aus.volume = volume * audiofade;
-        aus_loop.volume = volume * audiofade;
+        aus_loop.volume = volume * audiofade * 0.5f;
+        aus_ambient.volume = (volume * audiofade) * 0.15f;
+        for (int a = 0; a < aus.Count; a++){
+            aus[a].volume = volume * audiofade;
+            if (!aus[a].isPlaying){
+                AudioSource aus_remove = aus[a];
+                aus.Remove(aus_remove);
+                Destroy(aus_remove);
+            }
+        }
 	}
 
     //Pause Functions
@@ -262,16 +285,36 @@ public class GameManager : MonoBehaviour {
 
     //Audio Management
     public void playSound(string soundname){
-        aus.PlayOneShot(Resources.Load("AudioClip/" + soundname) as AudioClip, volume * audiofade);
+        AudioSource new_aus = gameObject.AddComponent<AudioSource>();
+        new_aus.volume = volume * audiofade;
+        new_aus.clip = Resources.Load("AudioClip/" + soundname) as AudioClip;
+        new_aus.Play();
+        aus.Add(new_aus);
     }
 
     public void playSoundLoop(string soundname){
+        //Check if same track
+        if ((Resources.Load("AudioClip/" + soundname) as AudioClip) == aus_loop.clip){
+            aus_loop.UnPause();
+            return;
+        }
+
+        //Play new track
         if (aus_loop.isPlaying){
             aus_loop.Stop();
         }
         aus_loop.clip = Resources.Load("AudioClip/" + soundname) as AudioClip;
         aus_loop.Play();
-        aus_loop.volume = volume * audiofade;
+        aus_loop.volume = volume * audiofade * 0.5f;
+    }
+
+    public void playSoundAmbient(string soundname){
+        if (aus_ambient.isPlaying){
+            aus_ambient.Stop();
+        }
+        aus_ambient.clip = Resources.Load("AudioClip/" + soundname) as AudioClip;
+        aus_ambient.Play();
+        aus_ambient.volume = (volume * audiofade) * 0.15f;
     }
 
     //Save Management
@@ -304,7 +347,8 @@ public class SaveFile {
 
     public SaveFile() {
         save_place = null;
-        save_keys = new bool[5];
+        save_keys = new bool[100];
+        save_keys[0] = true;
     }
 
     //Key functions

@@ -21,7 +21,7 @@ public class TransitionA : Transition {
 		if (direction){
             //Comes from the Right Side
             transform.position = new Vector3(position.x + 18f, position.y, position.z);
-            transform.localScale = new Vector3(15f, 8.5f, 1f);
+            transform.localScale = new Vector3(15.5f, 8.5f, 1f);
             
             tilt = new GameObject("TransitionA_tilt", typeof(SpriteRenderer), typeof(PixelSnap));
             tilt.GetComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
@@ -32,7 +32,7 @@ public class TransitionA : Transition {
         else {
             //Comes from the Left Side
             transform.position = new Vector3(position.x - 18f, position.y, position.z);
-            transform.localScale = new Vector3(15f, 8.5f, 1f);
+            transform.localScale = new Vector3(15.5f, 8.5f, 1f);
             
             tilt = new GameObject("TransitionA_tilt", typeof(SpriteRenderer), typeof(PixelSnap));
             tilt.GetComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
@@ -43,7 +43,7 @@ public class TransitionA : Transition {
 	}
 	
 	//Update
-	void Update () {
+	void LateUpdate () {
         //Reset Camera and Y position
         base.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
         transform.position = new Vector3(transform.position.x, position.y, transform.position.z);

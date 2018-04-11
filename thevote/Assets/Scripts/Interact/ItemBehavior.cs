@@ -50,6 +50,7 @@ public class ItemBehavior : InteractableBehavior {
                 }
                 else {
                     if (destroy_on_collect){
+                        GameManager.instance.playSound("InspectItemSFX");
                         Destroy(this.gameObject);
                     }
                 }

@@ -61,7 +61,13 @@ public class EventFile {
             else if (event_data[i] == 5){
                 //Play Music
                 new_event.Add(event_string[event_data[i + 1]]); //Track Name
-                i = i + 2;
+                if (event_data[i + 2] == 0){
+                    new_event.Add(false); //Loop Bool
+                }
+                else {
+                    new_event.Add(true); //Loop Bool
+                }
+                i = i + 3;
             }
             else if (event_data[i] == 6){
                 //Save Key
@@ -141,10 +147,16 @@ public class EventFile {
         event_string.Add(transitionB_name);
     }
 
-    public void addMusic(string track_name){
+    public void addMusic(string track_name, bool loop){
         event_data.Add(5);
         event_data.Add(event_string.Count);
         event_string.Add(track_name);
+        if (loop){
+            event_data.Add(1);
+        }
+        else {
+            event_data.Add(0);
+        }
     }
 
     public void addKey(int key) {

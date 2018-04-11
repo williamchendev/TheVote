@@ -145,10 +145,17 @@ public class DebugEvent : MonoBehaviour {
         file.addEnd();
         */
 
+        /*
         file.addMovement("will", new Vector2(0, 0));
         file.addEnd();
+        */
 
-        em.saveFile("MoveTest", file);
+        file.addText("This is me talking", Vector2.zero, "player");
+        file.addText("Hello!!!", Vector2.zero, "player");
+        file.addText("I AM STILL TALKING MORE AND MORE", Vector2.zero, "player");
+        file.addEnd();
+
+        em.saveFile("TestText", file);
     }
 
 }

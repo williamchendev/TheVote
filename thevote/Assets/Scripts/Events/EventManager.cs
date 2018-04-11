@@ -137,6 +137,18 @@ public class EventManager : MonoBehaviour {
         }
         else if (event_type == 5){
             //Music
+            string track_name = (string) event_array[1];
+            bool loop_bool = (bool) event_array[2];
+
+            if (loop_bool){
+                GameManager.instance.playSoundLoop(track_name);
+            }
+            else {
+                GameManager.instance.playSound(track_name);
+            }
+
+            event_num++;
+            eventHandler(event_data[event_num]);
         }
         else if (event_type == 6){
             //Keys

@@ -38,7 +38,7 @@ public class TransitionB : Transition {
 	}
 	
 	//Update
-	void Update () {
+	void LateUpdate () {
         //Reset Camera and Y position
         base.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
         transform.position = new Vector3(transform.position.x, position.y, transform.position.z);

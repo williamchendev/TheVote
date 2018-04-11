@@ -27,6 +27,8 @@ public class TextScript : MonoBehaviour {
     private float width;
     private float height;
 
+    private int audio_counter;
+
     private bool destroy;
 
 	//Init Variables
@@ -51,6 +53,8 @@ public class TextScript : MonoBehaviour {
 
         width = 0f;
         height = 0f;
+
+        audio_counter = 0;
 
         destroy = false;
 	}
@@ -130,6 +134,17 @@ public class TextScript : MonoBehaviour {
                 else {
                     texttimer = 0;
                     text_obj.text = text.Substring(0, text_obj.text.Length + 1);
+
+                    audio_counter--;
+                    if (audio_counter <= 0) {
+                        //Play Type Writer Audio Clip
+                        int rand_aud = Random.Range(0, 10);
+                        string aud_path = "TypeWriterSFX/TypeSFX" + rand_aud;
+                        
+                        GameManager.instance.playSound(aud_path);
+                        
+                        audio_counter = 2;
+                    }
                 }
             }
         }
