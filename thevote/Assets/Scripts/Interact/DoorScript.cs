@@ -35,6 +35,7 @@ public class DoorScript : InteractableBehavior {
         if (action){
             if (!transition){
                 transition = true;
+				GameManager.instance.playSound ("DoorOpenSFX");
                 GameManager.instance.transition(scene_name, door_id, "TransitionA", "TransitionB");
             }
         }

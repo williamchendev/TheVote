@@ -39,6 +39,9 @@ public class DebugIntroTransition : MonoBehaviour {
             Vector3 mouse_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (Input.GetMouseButtonDown(0)){
                 if (Vector2.Distance(mouse_position, new Vector2(0, -0.8f)) < 1f && mouse_position.y > -1.5f){
+					AudioSource new_aus = gameObject.AddComponent<AudioSource>();
+					new_aus.clip = Resources.Load("AudioClip/ButtonClickSFX") as AudioClip;
+					new_aus.Play();
                     play = true;
                 }
                 else if (Vector2.Distance(mouse_position, new Vector2(0, -2.36f)) < 0.8f){
