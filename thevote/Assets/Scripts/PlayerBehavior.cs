@@ -221,6 +221,7 @@ public class PlayerBehavior : MonoBehaviour {
                 }
 
                 anim.Play("hannah_walk");
+				GameManager.instance.playSoundLoop ("WalkingSFX");
                 if (transform.position.x < path_array[path_num].x){
                     sr.flipX = false;
                 }
@@ -243,6 +244,7 @@ public class PlayerBehavior : MonoBehaviour {
         }
         else {
             anim.Play("hannah_idle");
+			GameManager.instance.stopSound ("WalkingSFX");
         }
 
         transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.y + 500));

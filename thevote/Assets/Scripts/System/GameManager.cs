@@ -316,6 +316,12 @@ public class GameManager : MonoBehaviour {
         aus_ambient.Play();
         aus_ambient.volume = (volume * audiofade) * 0.15f;
     }
+		
+	public void stopSound(string soundname){
+		if (aus_loop.isPlaying) {
+			aus_loop.Pause ();
+		}
+	}
 
     //Save Management
     public SaveFile save {
