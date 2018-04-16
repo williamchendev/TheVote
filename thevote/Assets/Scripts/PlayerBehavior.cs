@@ -27,6 +27,8 @@ public class PlayerBehavior : MonoBehaviour {
     private Animator anim;
     private SpriteRenderer sr;
 
+	private GameObject mark;
+
     //Init Player
 	void Awake () {
         //Grid
@@ -77,6 +79,14 @@ public class PlayerBehavior : MonoBehaviour {
                 Vector3 v3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 bool position_found = false;
                 Vector2 move_v2 = new Vector2(v3.x, v3.y);
+				if (mark == null) {
+					mark = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+					mark.GetComponent<Renderer> ().material.color = new Color (0.73f, 0.96f, 0.73f);
+					mark.transform.localScale = new Vector3 (0.2f, 0.2f, 0.2f);
+					mark.transform.position = move_v2;
+				} else {
+					mark.transform.position = v3;
+				}
 
                 //Reset last Interact
                 if (interact != null){
@@ -240,10 +250,12 @@ public class PlayerBehavior : MonoBehaviour {
                     }
                 }
                 anim.Play("hannah_idle");
+				Destroy (mark);
             }
         }
         else {
             anim.Play("hannah_idle");
+			Destroy (mark);
 			GameManager.instance.stopSound ("WalkingSFX");
         }
 
