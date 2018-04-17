@@ -25,9 +25,7 @@ public class EventManager : MonoBehaviour {
     public void playEvent(string event_name){
         event_data = loadFile(event_name).getEvent();
         startEvent();
-		if (event_data.Count > 0) { 
-			eventHandler (event_data [0]);
-		}
+        eventHandler(event_data[0]);
     }
 
     private void startEvent() {

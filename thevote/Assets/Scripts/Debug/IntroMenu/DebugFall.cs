@@ -29,9 +29,9 @@ public class DebugFall : MonoBehaviour {
             currentLerpTime = lerpTime;
         }
  
-        //lerp by falling
+        //lerp!
         float t = currentLerpTime / lerpTime;
-		t = Mathf.Pow(t,3) * (t * (6f*t - 15f) + 10f);
+        t = t*t*t * (t * (6f*t - 15f) + 10f);
 
         transform.position = Vector3.Lerp(startPos, endPos, t);
     }

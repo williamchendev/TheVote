@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Final/Diner.unity
+- path: Assets/Scenes/Final/Menu.unity
   isLoaded: 1
   isActive: 1
