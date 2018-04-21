@@ -16,8 +16,6 @@ public class SubChoiceScript : MonoBehaviour {
     private GameObject[] corners;
 
     //Settings
-    private Vector3 position;
-
     private float spd;
     private float offset;
     private float sin_offset;
@@ -30,6 +28,7 @@ public class SubChoiceScript : MonoBehaviour {
     private float alpha;
 
     private int audio_counter;
+    private Vector2 cam_shift;
 
     private bool destroy;
     private ChoiceScript boss;
@@ -58,8 +57,11 @@ public class SubChoiceScript : MonoBehaviour {
         height = 0f;
 
         audio_counter = 0;
+        cam_shift = new Vector2(Camera.main.transform.position.x - transform.position.x, Camera.main.transform.position.y - transform.position.y);
+        cam_shift = new Vector2(cam_shift.x - (cam_shift.x % 0.03125f), cam_shift.y - (cam_shift.y % 0.03125f));
 
         destroy = false;
+        gameObject.tag = "Choice";
 	}
 
 	public void Start () {
@@ -73,14 +75,12 @@ public class SubChoiceScript : MonoBehaviour {
 
         //Camera
         transform.parent = GameManager.instance.canvas.gameObject.transform;
-        position = new Vector3(transform.position.x, transform.position.y, -1f * GameManager.instance.canvas.transform.childCount);
 	}
 	
 	//Update Event
-	void Update () {
+	void LateUpdate () {
         //Set Positions
-        Vector3 real_position = new Vector3(Camera.main.transform.position.x + position.x, Camera.main.transform.position.y + position.y, position.z);
-        real_position = new Vector3(real_position.x - (real_position.x % 0.03125f), real_position.y - (real_position.y % 0.03125f), real_position.z);
+        Vector3 real_position = new Vector3(Camera.main.transform.position.x + cam_shift.x, Camera.main.transform.position.y - cam_shift.y, -1f * GameManager.instance.canvas.transform.childCount);
         transform.position = real_position;
 
 		//Draw Sin
@@ -173,10 +173,10 @@ public class SubChoiceScript : MonoBehaviour {
         vBox.transform.localScale = new Vector3(width - 10, height, 1);
 
         //Corner placement
-        corners[0].transform.position = new Vector3(real_position.x - ((width / 32) / 2), real_position.y + ((height / 32) / 2), real_position.z);
-        corners[1].transform.position = new Vector3(real_position.x + ((width / 32) / 2), real_position.y + ((height / 32) / 2), real_position.z);
-        corners[2].transform.position = new Vector3(real_position.x + ((width / 32) / 2), real_position.y - ((height / 32) / 2), real_position.z);
-        corners[3].transform.position = new Vector3(real_position.x - ((width / 32) / 2), real_position.y - ((height / 32) / 2), real_position.z);
+        corners[0].transform.position = new Vector3(transform.position.x - ((width / 32) / 2), transform.position.y + ((height / 32) / 2), transform.position.z);
+        corners[1].transform.position = new Vector3(transform.position.x + ((width / 32) / 2), transform.position.y + ((height / 32) / 2), transform.position.z);
+        corners[2].transform.position = new Vector3(transform.position.x + ((width / 32) / 2), transform.position.y - ((height / 32) / 2), transform.position.z);
+        corners[3].transform.position = new Vector3(transform.position.x - ((width / 32) / 2), transform.position.y - ((height / 32) / 2), transform.position.z);
 
         //Destroy
         if (destroy){

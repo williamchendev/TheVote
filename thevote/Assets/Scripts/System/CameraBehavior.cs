@@ -37,6 +37,10 @@ public class CameraBehavior : MonoBehaviour {
 
     //Update
     void Update () {
+        if (GameObject.FindGameObjectWithTag("Choice") != null){
+            return;
+        }
+
         Vector2 target = new Vector2(transform.position.x, transform.position.y);
         if (cutscene_bool){
             target = new Vector2(cutscene_pos.x, cutscene_pos.y);

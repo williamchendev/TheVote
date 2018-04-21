@@ -93,6 +93,14 @@ public class NPCFollowBehavior : NPCBehavior {
         position = new Vector2(player.transform.position.x, player.transform.position.y);
 
         base.step();
+
+        //Animation
+        if (moving){
+            anim.Play(walk_anim);
+        }
+        else {
+            anim.Play(idle_anim);
+        }
     }
 
     //Functions & Methods
