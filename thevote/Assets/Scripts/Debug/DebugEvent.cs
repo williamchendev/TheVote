@@ -150,12 +150,145 @@ public class DebugEvent : MonoBehaviour {
         file.addEnd();
         */
 
+        /*
         file.addText("This is me talking", Vector2.zero, "player");
         file.addText("Hello!!!", Vector2.zero, "player");
         file.addText("I AM STILL TALKING MORE AND MORE", Vector2.zero, "player");
         file.addEnd();
+        */
 
-        em.saveFile("TestText", file);
+        /*
+        file.addText("You ordering?", Vector2.zero, "Ellie");
+        file.addText("Heck yes! More waffle fries!", Vector2.zero, "player");
+        file.addText("How you're paying?", Vector2.zero, "Ellie");
+        file.addText("(Ugghhh I left my card at home)", Vector2.zero, "player");
+        file.addText("..put it on my tab?", Vector2.zero, "player");
+        file.addText("This ain't a breadline sugar.", Vector2.zero, "Ellie");
+        file.addText("(I'll need some money if I come here next time D:)", Vector2.zero, "player"); 
+        */
+
+        /*
+        file.addMovement("player", new Vector2(-3.16f, -2.44f));
+        file.addMovement("Will", new Vector2(-4.26f, -3.18f));
+        file.addText("Will! Long time no see!", Vector2.zero, "GovGirl");
+        file.addText("Find any candidates to run against us?", Vector2.zero, "GovGirl"); 
+        file.addText("How could you back Carver?", Vector2.zero, "Will");
+        file.addText("I thought you cared about people!", Vector2.zero, "Will");
+        file.addText("Excuse me?", Vector2.zero, "Carver");
+        file.addMovement("GovGirl", new Vector2(-3.46f, -3.18f));
+        file.addText("Look at me.", Vector2.zero, "GovGirl"); 
+        file.addText("I will destroy you.", Vector2.zero, "GovGirl"); 
+        file.addText("...", Vector2.zero, "Will");
+        file.addMovement("GovGirl", new Vector2(0.65f, -3.05f));
+        file.addMovement("GovGirl", new Vector2(0.55f, -3.05f));
+        file.addText("...", Vector2.zero, "Carver");
+        file.addMusic("GirlthemeSFX", true);
+        file.addText("Where are my manners? My name is Isabell, and this is Mayor Anthony Carver.", Vector2.zero, "GovGirl");
+        file.addChoice("GovGirl", "I don't think I've met you, who are you again?", "Hannah.", 1, "...", 3);
+        file.addText("That's an excellent name!", Vector2.zero, "GovGirl");
+        file.addSkip(0, 2);
+        file.addText("No matter, I'll find out your name soon enough.", Vector2.zero, "GovGirl");
+        file.addText("We're on our way to City Hall.", Vector2.zero, "GovGirl");
+        file.addText("Being Mayor is fantastic!", Vector2.zero, "Carver");
+        file.addText("Another year to slash our taxes to ribbons!", Vector2.zero, "Carver");
+        file.addText("You traitor! I can't beleive you're working with this fascist Milk Boy!", Vector2.zero, "Will");
+        file.addText("I hate that name.", Vector2.zero, "Carver");
+        file.addText("I solved racism, why can't you be grateful?", Vector2.zero, "Carver");
+        file.addText("Listen, Carver offered me something Paesly didn't.", Vector2.zero, "GovGirl");
+        file.addText("Paesly was a fat coward that ate himself to an early death.", Vector2.zero, "GovGirl");
+        file.addText("At least I'm doing something.", Vector2.zero, "GovGirl");
+        file.addText("You're working with the devil!", Vector2.zero, "Will");
+        file.addText("You completely quit after you lost!", Vector2.zero, "GovGirl");
+        file.addText("Don't blame me for your shortcomings.", Vector2.zero, "GovGirl");
+        file.addChoice("GovGirl", "Learn to control your boy.", "He's not my \"boy\".", 1, "Will heel", 1);
+        file.addText("Whatever, I don't have time for this.", Vector2.zero, "GovGirl");
+        file.addText("The bus is coming, we should go.", Vector2.zero, "Carver");
+        file.addMusic("BusSFX", false);
+        file.addKey(10);
+        file.addMovement("GovGirl", new Vector2(-3.46f, -3.18f));
+        file.addMovement("Carver", new Vector2(-0.56f, -3.15f));
+        file.addMusic("BusSFX", false);
+        file.addKey(11);
+        file.addKey(7);
+        file.addKey(5);
+        file.addText("Ugh what snobs.", Vector2.zero, "Will");
+        file.addEnd();
+        */
+
+        /*
+        file.addMovement("player", new Vector2(4.818685f, -3.407171f));
+        file.addMovement("Will", new Vector2(3.52f, -3.82f));
+        file.addText("What the hell? Why is this all barricaded?", Vector2.zero, "Will");
+        file.addText("Didn't you hear?", Vector2.zero, "GovGirl");
+        file.addText("Apparently Russian subversives have been swinging elections all over the country.", Vector2.zero, "GovGirl");
+        file.addText("With the war going on, a little security doesn't hurt.", Vector2.zero, "GovGirl");
+        file.addText("How are we supposed to get in?", Vector2.zero, "Will");
+        file.addText("Well I could let you in..", Vector2.zero, "GovGirl");
+        file.addChoice("GovGirl", "..for a price.", "What do you want?", 5, "This is probably illegal.", 1);
+        file.addText("Well normally I'd be suspended from barring you entry.", Vector2.zero, "GovGirl");
+        file.addText("But we live in strange times.", Vector2.zero, "GovGirl");
+        file.addText("Drastic times call fro drastic measures.", Vector2.zero, "GovGirl");
+        file.addText("Okay fine, what's your price?", Vector2.zero, "player");
+        file.addText("Glad you asked!", Vector2.zero, "GovGirl");
+        file.addText("Naperville has the lowest crime rate in all of America.", Vector2.zero, "GovGirl");
+        file.addText("Possibly the world.", Vector2.zero, "GovGirl");
+        file.addChoice("GovGirl", "Want to guess how I do it?", "Sure", 1, "No.", 3);
+        file.addChoice("GovGirl", "...", "Blackmail?", 1, "Intimidation?", 1, "Secret death squads?", 1);
+        file.addText("Sort of.", Vector2.zero, "GovGirl");
+        file.addText("I've networked the city to know everything about everyone.", Vector2.zero, "GovGirl");
+        file.addText("Wait, that's so unethical!", Vector2.zero, "Will");
+        file.addText("People are safe, they don't even know they're being watched.", Vector2.zero, "GovGirl");
+        file.addText("I mean give me some credit,", Vector2.zero, "GovGirl");
+        file.addText("I did all that using the dinosaur computers in the DMV.", Vector2.zero, "GovGirl");
+        file.addText("You're a monster.", Vector2.zero, "Will");
+        file.addText("I'm not a monster. You asked for this.", Vector2.zero, "GovGirl");
+        file.addText("You and the rest of Naperville.", Vector2.zero, "GovGirl");
+        file.addText("Property values don't rise by themselves.", Vector2.zero, "GovGirl");
+        file.addText("I only did what the free market wanted.", Vector2.zero, "GovGirl");
+        file.addChoice("GovGirl", "What have you done to help?", "What do you want from us?", 2, "Are you insane?", 1);
+        file.addText("Partially.", Vector2.zero, "GovGirl");
+        file.addText("I want you both to bring me the bookstore's computer hard drive.", Vector2.zero, "GovGirl");
+        file.addText("Someone's been downloading some \"illegal\" materials.", Vector2.zero, "GovGirl");
+        file.addText("We're buring books now?", Vector2.zero, "Will");
+        file.addText("Hard drives.", Vector2.zero, "GovGirl");
+        file.addText("Books are protected by the first amendment. Data however is not.", Vector2.zero, "GovGirl");
+        file.addText("God bless the FCC.", Vector2.zero, "GovGirl");
+        file.addText("So you want us to break a hard drive?", Vector2.zero, "player");
+        file.addText("No, make sure you bring it back to me.", Vector2.zero, "GovGirl");
+        file.addText("All that information is highly valuable. Who knows what could be on it?", Vector2.zero, "GovGirl");
+        file.addText("Bring back the hard drive. It's in the book store's computer.", Vector2.zero, "GovGirl");
+        file.addText("I hate working for her, but it seems like our only choice.", Vector2.zero, "Will");
+        file.addKey(8);
+        file.addEnd();
+        */
+
+        /*
+        file.addText("Hey uhh do you work here?", Vector2.zero, "Parks");
+        file.addText("Uhhh, no.", Vector2.zero, "player");
+        file.addText("Aw, I need to give the keys ", Vector2.zero, "Parks");
+        file.addText("Fine, just pick it up already.", Vector2.zero, "Will");
+        file.addKey(14);
+        file.addEnd();
+        */
+
+        file.addSkip(20, 15);
+        file.addKey(20);
+        file.addText("Hey.", Vector2.zero, "Abby");
+        file.addText("Hi", Vector2.zero, "player");
+        file.addChoice("Abby", "Do you need anything?", "What are you doing out here?", 1, "Aren't you wet?", 1);
+        file.addText("I didn't think things through.", Vector2.zero, "Abby");
+        file.addText("I borrowed this sweater and thought I'd be dry.", Vector2.zero, "Abby");
+        file.addText("Why haven't you gone inside?", Vector2.zero, "player");
+        file.addText("I gave up on being dry a long time ago...", Vector2.zero, "Abby");
+        file.addText("Is that sweater stolen?", Vector2.zero, "player");
+        file.addText("No.", Vector2.zero, "Abby");
+        file.addText("...", Vector2.zero, "Abby");
+        file.addText("I'll pick locks for you to net snitch on me.", Vector2.zero, "Abby");
+        file.addText("Deal.", Vector2.zero, "player");
+        file.addSkip(0, 15);
+
+        file.addEnd();
+        em.saveFile("AbbyA", file);
     }
 
 }

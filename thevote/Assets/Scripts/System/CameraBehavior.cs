@@ -23,11 +23,13 @@ public class CameraBehavior : MonoBehaviour {
     private Vector2 parallax_A_pos;
 
     //Init
-    void Start() {
+    void Awake() {
         spd = 0.02f;
 
-        if (!centered){
-            recenterCam();
+        if (GameObject.FindGameObjectWithTag("Player") != null){
+            if (!centered){
+                recenterCam();
+            }
         }
 
         if (parallax_A != null){
@@ -75,6 +77,10 @@ public class CameraBehavior : MonoBehaviour {
         position = transform.position;
 
         Update();
+    }
+
+    public void setFollow(GameObject new_follow){
+        follow_obj = new_follow;
     }
 
     //Getters and Setters

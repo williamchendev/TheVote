@@ -180,13 +180,13 @@ public class EventFile {
         event_data.Add(event_string.Count);
         event_string.Add(text);
         event_data.Add(event_string.Count);
-        event_string.Add(choiceA);
-        event_data.Add(event_string.Count);
         event_string.Add(choiceB);
         event_data.Add(event_string.Count);
+        event_string.Add(choiceA);
+        event_data.Add(event_string.Count);
         event_string.Add("");
-        event_data.Add(skipA);
         event_data.Add(skipB);
+        event_data.Add(skipA);
         event_data.Add(-1);
         event_data.Add(event_string.Count);
         event_string.Add(hashid);
@@ -198,14 +198,14 @@ public class EventFile {
         event_data.Add(event_string.Count);
         event_string.Add(text);
         event_data.Add(event_string.Count);
-        event_string.Add(choiceA);
+        event_string.Add(choiceC);
         event_data.Add(event_string.Count);
         event_string.Add(choiceB);
         event_data.Add(event_string.Count);
-        event_string.Add(choiceC);
-        event_data.Add(skipA);
-        event_data.Add(skipB);
+        event_string.Add(choiceA);
         event_data.Add(skipC);
+        event_data.Add(skipB);
+        event_data.Add(skipA);
         event_data.Add(event_string.Count);
         event_string.Add(hashid);
     }

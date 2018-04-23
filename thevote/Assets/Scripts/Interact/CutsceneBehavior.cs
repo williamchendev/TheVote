@@ -30,10 +30,12 @@ public class CutsceneBehavior : MonoBehaviour {
         if (!playing){
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null){
-                if (collision.bounds.Contains(new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z))){
-                    playing = true;
-                    GameManager.instance.save.setKey(key_check, true);
-                    em.playEvent(event_name);
+                if (player.GetComponent<PlayerBehavior>().can_move){
+                    if (collision.bounds.Contains(new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z))){
+                        playing = true;
+                        GameManager.instance.save.setKey(key_check, true);
+                        em.playEvent(event_name);
+                    }
                 }
             }
         }

@@ -47,23 +47,27 @@ public class InteractableBehavior : InteractableInterface {
 
     protected override void step(){
         Vector3 v3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        PlayerBehavior player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>();
+        GameObject player_obj = GameObject.FindGameObjectWithTag("Player");
 
-        outline.OutlineColor = new Color(1, 1, 1, 0);
-        if (player.can_move){
-            if (selected){
-                outline.OutlineColor = new Color(1, 1, 1, 0.8f);
-            }
-            else {
-                if (collider2d.OverlapPoint(new Vector2(v3.x, v3.y))) {
+        if (player_obj != null){
+            PlayerBehavior player = player_obj.GetComponent<PlayerBehavior>();
+
+            outline.OutlineColor = new Color(1, 1, 1, 0);
+            if (player.can_move){
+                if (selected){
                     outline.OutlineColor = new Color(1, 1, 1, 0.8f);
                 }
+                else {
+                    if (collider2d.OverlapPoint(new Vector2(v3.x, v3.y))) {
+                        outline.OutlineColor = new Color(1, 1, 1, 0.8f);
+                    }
+                }
             }
-        }
-        else {
-            if (player.inventory_act){
-                if (collider2d.OverlapPoint(new Vector2(v3.x, v3.y))) {
-                    outline.OutlineColor = new Color(1, 1, 1, 0.8f);
+            else {
+                if (player.inventory_act){
+                    if (collider2d.OverlapPoint(new Vector2(v3.x, v3.y))) {
+                        outline.OutlineColor = new Color(1, 1, 1, 0.8f);
+                    }
                 }
             }
         }

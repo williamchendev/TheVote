@@ -25,15 +25,22 @@ public class EventManager : MonoBehaviour {
     public void playEvent(string event_name){
         event_data = loadFile(event_name).getEvent();
         startEvent();
-        eventHandler(event_data[0]);
+        if (event_data.Count > 0){
+            eventHandler(event_data[0]);
+        }
+        else {
+            endEvent();
+        }
     }
 
     private void startEvent() {
         //Player Settings
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<PlayerBehavior>().can_move = false;
-        player.GetComponent<PlayerBehavior>().inventory_act = false;
-        player.GetComponent<PlayerBehavior>().cleanItem();
+        if (player != null){
+            player.GetComponent<PlayerBehavior>().can_move = false;
+            player.GetComponent<PlayerBehavior>().inventory_act = false;
+            player.GetComponent<PlayerBehavior>().cleanItem();
+        }
 
         //NPC Settings
         GameObject[] npc = GameObject.FindGameObjectsWithTag("NPC");
@@ -51,7 +58,9 @@ public class EventManager : MonoBehaviour {
     private void endEvent() {
         //Player Settings
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<PlayerBehavior>().can_move = true;
+        if (player != null){
+            player.GetComponent<PlayerBehavior>().can_move = true;
+        }
 
         //NPC Settings
         GameObject[] npc = GameObject.FindGameObjectsWithTag("NPC");
@@ -197,8 +206,6 @@ public class EventManager : MonoBehaviour {
             textbox.colorContent = text_color;
             textbox.textContent = text;
 
-            //GameObject player = GameObject.FindGameObjectWithTag("Player");
-            //v2 = new Vector2(player.transform.position.x, player.transform.position.y + 3f);
             if (choice_num == 2) {
                 v2 = new Vector2(Camera.main.transform.position.x - 2.5f, Camera.main.transform.position.y - 3.5f);
                 for (int i = choice_num - 1; i >= 0; i--){
@@ -303,7 +310,7 @@ public class EventManager : MonoBehaviour {
             return JsonUtility.FromJson<EventFile>(json_save);
         }
         else {
-            Debug.LogError("File not found exception");
+            Debug.LogError("File \"" + file_name + "\" not found");
             return new EventFile();
         }
     }

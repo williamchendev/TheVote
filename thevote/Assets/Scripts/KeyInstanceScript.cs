@@ -70,11 +70,13 @@ public class KeyInstanceBehavior : MonoBehaviour {
             }
         }
 
-        if (on && !off){
-            check.SetActive(true);
-        }
-        else {
-            check.SetActive(false);
+        if (check != null){
+            if (on && !off){
+                check.SetActive(true);
+            }
+            else {
+                check.SetActive(false);
+            }
         }
     }
 
