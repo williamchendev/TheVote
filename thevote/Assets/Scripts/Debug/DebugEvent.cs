@@ -271,6 +271,7 @@ public class DebugEvent : MonoBehaviour {
         file.addEnd();
         */
 
+        /*
         file.addSkip(20, 15);
         file.addKey(20);
         file.addText("Hey.", Vector2.zero, "Abby");
@@ -285,10 +286,40 @@ public class DebugEvent : MonoBehaviour {
         file.addText("...", Vector2.zero, "Abby");
         file.addText("I'll pick locks for you to net snitch on me.", Vector2.zero, "Abby");
         file.addText("Deal.", Vector2.zero, "player");
-        file.addSkip(0, 15);
-
+        file.addSkip(0, 21);
+        file.addChoice("Abby", "What do you need?", "Lockpick", 6, "Wishing Well", 1);
+        file.addText("Do you have any quarters?", Vector2.zero, "Abby");
+        file.addText("Why?", Vector2.zero, "player");
+        file.addText("I really want to make a wish.", Vector2.zero, "Abby");
+        file.addText("I'll lock pick for a quarter.", Vector2.zero, "Abby");
+        file.addSkip(0, -5);
+        file.addSkip(17, 2);
+        file.addSkip(0, 2);
+        file.addSkip(18, 2);
+        file.addSkip(0, 2);
+        file.addSkip(19, 6);
+        file.addText("I want a quarter first.", Vector2.zero, "Abby");
+        file.addText("For what?", Vector2.zero, "player");
+        file.addText("The wishing well", Vector2.zero, "Abby");
+        file.addText("Until I get that quarter, you're not going anywhere.", Vector2.zero, "Abby");
+        file.addSkip(0, 5);
+        file.addKey(15);
+        file.addText("Done.", Vector2.zero, "Abby");
+        file.addText("Wait really? That quick?", Vector2.zero, "player");
+        file.addText("I mean go check, the lock's probably off now.", Vector2.zero, "Abby");
         file.addEnd();
         em.saveFile("AbbyA", file);
+        */
+
+        file.addText("Wow, you actually managed to grab this!", Vector2.zero, "GovGirl");
+        file.addText("So can we come in?", Vector2.zero, "player");
+        file.addText("...", Vector2.zero, "GovGirl");
+        file.addText("Come on, we did what you asked.", Vector2.zero, "Will");
+        file.addText("Fine.", Vector2.zero, "GovGirl");
+        file.addText("Just don't break anything expensive.", Vector2.zero, "GovGirl");
+        file.addTransition("Ending", 0, "TransitionA", "TransitionB");
+        file.addEnd();
+        em.saveFile("Ending", file);
     }
 
 }
